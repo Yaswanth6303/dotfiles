@@ -1,0 +1,7 @@
+--target=$HOME
+--ignore=\.DS_Store
+--ignore=\.git
+--ignore=\.gitignore
+--ignore=\.stowrc
+--ignore=README\.md
+--dotfiles 
