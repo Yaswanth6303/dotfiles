@@ -268,6 +268,7 @@ alias nd="npm run dev"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
 # ---- Git Aliases ----
+alias lg="lazygit"
 alias gc="git commit -m"
 alias gca="git commit -a -m"
 alias gp="git push origin HEAD"
@@ -283,3 +284,15 @@ alias ga='git add -p'
 alias gcoall='git checkout -- .'
 alias gr='git remote'
 alias gre='git reset'
+
+. "$HOME/.local/bin/env"
+
+# bun completions
+[ -s "/Users/yaswanthgudivada/.bun/_bun" ] && source "/Users/yaswanthgudivada/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by Windsurf
+export PATH="/Users/yaswanthgudivada/.codeium/windsurf/bin:$PATH"
