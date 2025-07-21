@@ -2,6 +2,11 @@ return {
   -- Markdown rendering and preview
   {
     "MeanderingProgrammer/markdown.nvim",
+    name = "render-markdown", -- Set name before main to avoid circular references
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
     main = "render-markdown",
     opts = {
       -- Customize the rendering options
@@ -22,11 +27,6 @@ return {
           marker = "•", -- Optional: change bullet style
         },
       },
-    },
-    name = "render-markdown",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
     },
   },
 
@@ -65,6 +65,7 @@ return {
       vim.g.mkdp_theme = "dark"
     end,
   },
+
   -- Vim-pencil for better writing experience
   {
     "preservim/vim-pencil",
