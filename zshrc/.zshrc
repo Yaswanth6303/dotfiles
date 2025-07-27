@@ -214,3 +214,8 @@ source <(carapace _carapace)
 # Ruby 
 # ------------------------------------
 eval "$(rbenv init -)"
+
+# ------------------------------------
+# Selenium
+# ------------------------------------
+export CLASSPATH="/usr/local/lib/java/*:$CLASSPATH"
