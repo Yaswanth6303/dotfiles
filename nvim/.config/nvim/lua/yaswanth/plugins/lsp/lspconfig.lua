@@ -5,6 +5,10 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
     { "folke/neodev.nvim", opts = {} },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      dependencies = { "williamboman/mason.nvim" },
+    },
   },
   config = function()
     -- import lspconfig plugin
@@ -72,20 +76,23 @@ return {
 
     -- Change the Diagnostic symbols in the sign column (gutter)
     -- (not in youtube nvim video)
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    mason_lspconfig.setup_handlers({
-      -- default handler for installed servers
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
-      ["svelte"] = function()
+    -- Configure individual language servers
+    local servers = mason_lspconfig.get_installed_servers()
+    
+    -- If no servers are installed yet, setup common ones manually
+    if #servers == 0 then
+      servers = { "lua_ls", "html", "cssls", "tailwindcss", "svelte", "graphql", "emmet_ls", "prismals", "pyright" }
+    end
+    
+    -- Setup all installed servers with default config
+    for _, server_name in ipairs(servers) do
+      if server_name == "svelte" then
         -- configure svelte server
         lspconfig["svelte"].setup({
           capabilities = capabilities,
@@ -99,22 +106,19 @@ return {
             })
           end,
         })
-      end,
-      ["graphql"] = function()
+      elseif server_name == "graphql" then
         -- configure graphql language server
         lspconfig["graphql"].setup({
           capabilities = capabilities,
           filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
         })
-      end,
-      ["emmet_ls"] = function()
+      elseif server_name == "emmet_ls" then
         -- configure emmet language server
         lspconfig["emmet_ls"].setup({
           capabilities = capabilities,
           filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
         })
-      end,
-      ["lua_ls"] = function()
+      elseif server_name == "lua_ls" then
         -- configure lua server (with special settings)
         lspconfig["lua_ls"].setup({
           capabilities = capabilities,
@@ -130,7 +134,12 @@ return {
             },
           },
         })
-      end,
-    })
+      else
+        -- Default configuration for other servers
+        lspconfig[server_name].setup({
+          capabilities = capabilities,
+        })
+      end
+    end
   end,
 }
