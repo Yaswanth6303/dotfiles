@@ -2,7 +2,7 @@
 # 🚀 Instant Prompt for Powerlevel10k
 # -------------------------------------
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # -------------------------------------
@@ -55,12 +55,12 @@ export NVM_DIR="$HOME/.nvm"
 # -------------------------------------
 export EDITOR=nvim
 function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(< "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    cd "$cwd"
-  fi
-  rm -f "$tmp"
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(< "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd "$cwd"
+    fi
+    rm -f "$tmp"
 }
 
 # -------------------------------------
@@ -122,14 +122,14 @@ export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 _fzf_comprun() {
-  local command=$1
-  shift
-  case "$command" in
-    cd) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo ${}'" "$@" ;;
-    ssh) fzf --preview 'dig {}' "$@" ;;
-    *) fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
+    local command=$1
+    shift
+    case "$command" in
+        cd) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+        export|unset) fzf --preview "eval 'echo ${}'" "$@" ;;
+        ssh) fzf --preview 'dig {}' "$@" ;;
+        *) fzf --preview "$show_file_or_dir_preview" "$@" ;;
+    esac
 }
 
 # -------------------------------------
@@ -186,11 +186,11 @@ alias gre="git reset"
 # -------------------------------------
 __conda_setup="$('/Users/yaswanthgudivada/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
-  eval "$__conda_setup"
+    eval "$__conda_setup"
 elif [ -f "/Users/yaswanthgudivada/miniconda3/etc/profile.d/conda.sh" ]; then
-  . "/Users/yaswanthgudivada/miniconda3/etc/profile.d/conda.sh"
+    . "/Users/yaswanthgudivada/miniconda3/etc/profile.d/conda.sh"
 else
-  export PATH="/Users/yaswanthgudivada/miniconda3/bin:$PATH"
+    export PATH="/Users/yaswanthgudivada/miniconda3/bin:$PATH"
 fi
 unset __conda_setup
 
@@ -229,3 +229,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # 🔧 Go
 # ------------------------------------
 export PATH="$HOME/go/bin:$PATH"
+
+# ------------------------------------
+# Bun
+# ------------------------------------
+alias bun-setup="bun ~/.bun/setup-project.js"
