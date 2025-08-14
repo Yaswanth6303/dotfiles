@@ -224,3 +224,8 @@ export CLASSPATH="/usr/local/lib/java/*:$CLASSPATH"
 # .local Path
 # ------------------------------------
 export PATH="$HOME/.local/bin:$PATH"
+
+# ------------------------------------
+# 🔧 Go
+# ------------------------------------
+export PATH="$HOME/go/bin:$PATH"
