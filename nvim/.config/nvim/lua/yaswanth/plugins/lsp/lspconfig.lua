@@ -77,19 +77,55 @@ return {
     -- Change the Diagnostic symbols in the sign column (gutter)
     -- (not in youtube nvim video)
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    vim.diagnostic.config({
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = signs.Error,
+          [vim.diagnostic.severity.WARN] = signs.Warn,
+          [vim.diagnostic.severity.HINT] = signs.Hint,
+          [vim.diagnostic.severity.INFO] = signs.Info,
+        },
+      },
+      underline = true, -- Enable underline for diagnostics (squiggly lines)
+      virtual_text = {
+        spacing = 4,
+        source = "if_many",
+        prefix = "●",
+      },
+      float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+      severity_sort = true,
+    })
 
     -- Configure individual language servers
     local servers = mason_lspconfig.get_installed_servers()
-    
+
     -- If no servers are installed yet, setup common ones manually
     if #servers == 0 then
-      servers = { "lua_ls", "html", "cssls", "tailwindcss", "svelte", "graphql", "emmet_ls", "prismals", "pyright" }
+      servers = {
+        "ts_ls",
+        "lua_ls",
+        "html",
+        "cssls",
+        "tailwindcss",
+        "svelte",
+        "graphql",
+        "emmet_ls",
+        "prismals",
+        "pyright",
+        "clangd",
+        "gopls",
+        "rust_analyzer",
+        "jdtls",
+      }
     end
-    
+
     -- Setup all installed servers with default config
     for _, server_name in ipairs(servers) do
       if server_name == "svelte" then
@@ -130,6 +166,93 @@ return {
               },
               completion = {
                 callSnippet = "Replace",
+              },
+            },
+          },
+        })
+      elseif server_name == "clangd" then
+        -- configure C/C++ language server
+        lspconfig["clangd"].setup({
+          capabilities = capabilities,
+          cmd = { "clangd", "--background-index", "--clang-tidy" },
+          filetypes = { "c", "cpp", "objc", "objcpp" },
+        })
+      elseif server_name == "gopls" then
+        -- configure Go language server
+        lspconfig["gopls"].setup({
+          capabilities = capabilities,
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
+            },
+          },
+        })
+      elseif server_name == "rust_analyzer" then
+        -- configure Rust language server
+        lspconfig["rust_analyzer"].setup({
+          capabilities = capabilities,
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+              },
+              checkOnSave = {
+                command = "clippy",
+              },
+            },
+          },
+        })
+      elseif server_name == "ts_ls" then
+        -- configure TypeScript/JavaScript language server
+        lspconfig["ts_ls"].setup({
+          capabilities = capabilities,
+          filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+          },
+        })
+      elseif server_name == "jdtls" then
+        -- configure Java language server
+        lspconfig["jdtls"].setup({
+          capabilities = capabilities,
+          settings = {
+            java = {
+              configuration = {
+                updateBuildConfiguration = "interactive",
+              },
+              completion = {
+                favoriteStaticMembers = {
+                  "org.hamcrest.MatcherAssert.assertThat",
+                  "org.hamcrest.Matchers.*",
+                  "org.hamcrest.CoreMatchers.*",
+                  "org.junit.jupiter.api.Assertions.*",
+                  "java.util.Objects.requireNonNull",
+                  "java.util.Objects.requireNonNullElse",
+                },
               },
             },
           },

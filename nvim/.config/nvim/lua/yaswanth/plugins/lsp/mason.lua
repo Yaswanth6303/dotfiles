@@ -27,8 +27,7 @@ return {
     mason_lspconfig.setup({
       -- list of servers for mason to install
       ensure_installed = {
-        -- BUG:
-        -- "tsserver",
+        "ts_ls", -- TypeScript/JavaScript language server (replaces deprecated tsserver)
         "html",
         "cssls",
         "tailwindcss",
@@ -38,6 +37,11 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
+        -- Systems programming
+        "clangd", -- C/C++
+        "gopls", -- Go
+        "rust_analyzer", -- Rust
+        "jdtls", -- Java
       },
     })
 
@@ -49,6 +53,11 @@ return {
         "black", -- python formatter
         "pylint",
         "eslint_d",
+        -- Systems programming tools
+        "clang-format", -- C/C++ formatter
+        "goimports", -- Go imports formatter (includes gofmt functionality)
+        "rustfmt", -- Rust formatter
+        "google-java-format", -- Java formatter
       },
     })
   end,

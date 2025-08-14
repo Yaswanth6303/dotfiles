@@ -9,6 +9,7 @@ return {
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true },
+    terminal = { enabled = true },
     styles = { notification = { wo = { wrap = true } } },
   },
   keys = {
@@ -69,11 +70,11 @@ return {
       desc = "Rename File",
     },
     {
-      "<c-/>",
+      "<leader>tt",
       function()
-        require("snacks").terminal()
+        require("snacks.terminal").toggle()
       end,
-      desc = "Toggle Terminal",
+      desc = "Toggle Snacks Terminal",
     },
     {
       "<c-_>",

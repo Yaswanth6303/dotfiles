@@ -50,6 +50,10 @@ return {
         "query",
         "vimdoc",
         "c",
+        "cpp",
+        "go",
+        "gomod",
+        "gosum",
       },
       incremental_selection = {
         enable = true,

@@ -20,12 +20,26 @@ return {
 				liquid = { "prettier" },
 				lua = { "stylua" },
 				python = { "isort", "black" },
+				-- Systems programming languages
+				c = { "clang-format" },
+				cpp = { "clang-format" },
+				go = { "goimports" },
+				rust = { "rustfmt" },
+				java = { "google-java-format" },
 			},
-			format_on_save = {
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			},
+			-- Format on save with fallback to auto-indentation
+			format_on_save = function(bufnr)
+				-- Disable format on save for certain file types where auto-indent is preferred
+				local disable_filetypes = { "sql", "json" }
+				if vim.tbl_contains(disable_filetypes, vim.bo[bufnr].filetype) then
+					return
+				end
+				return {
+					lsp_fallback = true,
+					async = false,
+					timeout_ms = 1000,
+				}
+			end,
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
