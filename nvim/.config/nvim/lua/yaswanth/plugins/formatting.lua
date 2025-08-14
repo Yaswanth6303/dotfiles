@@ -25,32 +25,9 @@ return {
                 cpp = { "clang-format" },
                 go = { "goimports" },
                 rust = { "rustfmt" },
-                java = { "google-java-format" },
             },
-            -- Configure formatters to use 4-space indentation
-            formatters = {
-                prettier = {
-                    args = {
-                        "--stdin-filepath",
-                        "$FILENAME",
-                        "--tab-width",
-                        "4",
-                        "--use-tabs",
-                        "false",
-                    },
-                },
-                stylua = {
-                    args = {
-                        "--indent-type",
-                        "Spaces",
-                        "--indent-width",
-                        "4",
-                        "--stdin-filepath",
-                        "$FILENAME",
-                        "-",
-                    },
-                },
-            },
+            -- Formatters will use their respective config files (.prettierrc.json, .stylua.toml, etc.)
+            -- which are already configured for 4-space indentation
             -- Format on save with fallback to auto-indentation
             format_on_save = function(bufnr)
                 -- Disable format on save for certain file types where auto-indent is preferred

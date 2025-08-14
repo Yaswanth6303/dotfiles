@@ -15,7 +15,7 @@ end
 
 -- Language configurations
 local language_configs = {
-    -- Web development (2 spaces)
+    -- Web development (4 spaces)
     {
         languages = {
             "html",
@@ -37,8 +37,8 @@ local language_configs = {
     -- Python (4 spaces - PEP 8)
     { languages = { "python" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
 
-    -- Go (tabs)
-    { languages = { "go" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = false } },
+    -- Go (4 spaces - overriding Go convention for consistency)
+    { languages = { "go" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
 
     -- Lua (4 spaces)
     { languages = { "lua" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
@@ -55,19 +55,19 @@ local language_configs = {
     -- Rust (4 spaces)
     { languages = { "rust" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
 
-    -- Shell scripts (2 spaces)
+    -- Shell scripts (4 spaces)
     {
         languages = { "sh", "bash", "zsh" },
         config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
     },
 
-    -- Markdown (2 spaces)
+    -- Markdown (4 spaces)
     {
         languages = { "markdown", "md" },
         config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
     },
 
-    -- Config files (2 spaces)
+    -- Config files (4 spaces)
     {
         languages = { "vim", "toml", "ini" },
         config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
@@ -80,6 +80,21 @@ for _, lang_config in ipairs(language_configs) do
         set_lang_options(lang, lang_config.config)
     end
 end
+
+-- Global fallback to ensure 4-space indentation for any filetype not explicitly configured
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        -- Only apply if not already configured by language-specific settings
+        local current_tabstop = vim.opt_local.tabstop:get()
+        if current_tabstop == 8 then -- Default vim tabstop, means not configured
+            vim.opt_local.tabstop = 4
+            vim.opt_local.shiftwidth = 4
+            vim.opt_local.softtabstop = 4
+            vim.opt_local.expandtab = true
+        end
+    end,
+})
 
 -- Auto-indentation on save (for files without dedicated formatters)
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -105,7 +120,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
             "rust",
             "c",
             "cpp",
-            "java",
+            -- "java", -- Removed so Java uses auto-indentation with 4 spaces
         }
 
         -- Skip if file type has a dedicated formatter
@@ -124,11 +139,40 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
--- Add manual indentation command
+-- Add manual indentation commands
 vim.api.nvim_create_user_command("FixIndent", function()
     local cursor_pos = vim.api.nvim_win_get_cursor(0)
+    -- Convert tabs to spaces first
+    vim.cmd("%s/\t/    /g")
+    -- Then fix indentation
     vim.cmd("normal! gg=G")
     pcall(vim.api.nvim_win_set_cursor, 0, cursor_pos)
-end, { desc = "Fix indentation for entire file" })
+end, { desc = "Fix indentation for entire file and convert tabs to 4 spaces" })
+
+-- Command to convert tabs to 4 spaces
+vim.api.nvim_create_user_command("TabsToSpaces", function()
+    vim.cmd("%s/\t/    /g")
+end, { desc = "Convert all tabs to 4 spaces" })
+
+-- Auto-convert tabs to spaces when opening files
+vim.api.nvim_create_autocmd("BufReadPost", {
+    pattern = "*",
+    callback = function()
+        -- Only convert if file contains tabs and expandtab is set
+        if vim.bo.expandtab then
+            local content = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+            local has_tabs = false
+            for _, line in ipairs(content) do
+                if line:find("\t") then
+                    has_tabs = true
+                    break
+                end
+            end
+            if has_tabs then
+                vim.cmd("silent! %s/\t/    /g")
+            end
+        end
+    end,
+})
 
 return M
