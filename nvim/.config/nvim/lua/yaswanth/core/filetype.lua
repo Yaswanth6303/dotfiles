@@ -16,44 +16,62 @@ end
 -- Language configurations
 local language_configs = {
     -- Web development (2 spaces)
-    { languages = {"html", "css", "scss", "sass", "javascript", "typescript", "jsx", "tsx", "json", "yaml", "yml", "xml"}, 
-      config = { tabstop = 2, shiftwidth = 2, softtabstop = 2, expandtab = true } },
-    
+    {
+        languages = {
+            "html",
+            "css",
+            "scss",
+            "sass",
+            "javascript",
+            "typescript",
+            "jsx",
+            "tsx",
+            "json",
+            "yaml",
+            "yml",
+            "xml",
+        },
+        config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
+    },
+
     -- Python (4 spaces - PEP 8)
-    { languages = {"python"}, 
-      config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
-    
+    { languages = { "python" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
+
     -- Go (tabs)
-    { languages = {"go"}, 
-      config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = false } },
-    
+    { languages = { "go" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = false } },
+
     -- Lua (4 spaces)
-    { languages = {"lua"}, 
-      config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
-    
+    { languages = { "lua" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
+
     -- C/C++ (4 spaces)
-    { languages = {"c", "cpp", "h", "hpp"}, 
-      config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
-    
+    {
+        languages = { "c", "cpp", "h", "hpp" },
+        config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
+    },
+
     -- Java (4 spaces)
-    { languages = {"java"}, 
-      config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
-    
+    { languages = { "java" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
+
     -- Rust (4 spaces)
-    { languages = {"rust"}, 
-      config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
-    
+    { languages = { "rust" }, config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true } },
+
     -- Shell scripts (2 spaces)
-    { languages = {"sh", "bash", "zsh"}, 
-      config = { tabstop = 2, shiftwidth = 2, softtabstop = 2, expandtab = true } },
-    
+    {
+        languages = { "sh", "bash", "zsh" },
+        config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
+    },
+
     -- Markdown (2 spaces)
-    { languages = {"markdown", "md"}, 
-      config = { tabstop = 2, shiftwidth = 2, softtabstop = 2, expandtab = true } },
-    
+    {
+        languages = { "markdown", "md" },
+        config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
+    },
+
     -- Config files (2 spaces)
-    { languages = {"vim", "toml", "ini"}, 
-      config = { tabstop = 2, shiftwidth = 2, softtabstop = 2, expandtab = true } },
+    {
+        languages = { "vim", "toml", "ini" },
+        config = { tabstop = 4, shiftwidth = 4, softtabstop = 4, expandtab = true },
+    },
 }
 
 -- Apply configurations
@@ -70,22 +88,37 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         local filetype = vim.bo.filetype
         -- Only auto-indent for file types that don't have dedicated formatters
         local skip_filetypes = {
-            "javascript", "typescript", "javascriptreact", "typescriptreact",
-            "html", "css", "scss", "json", "yaml", "yml", "markdown",
-            "python", "lua", "go", "rust", "c", "cpp", "java"
+            "javascript",
+            "typescript",
+            "javascriptreact",
+            "typescriptreact",
+            "html",
+            "css",
+            "scss",
+            "json",
+            "yaml",
+            "yml",
+            "markdown",
+            "python",
+            "lua",
+            "go",
+            "rust",
+            "c",
+            "cpp",
+            "java",
         }
-        
+
         -- Skip if file type has a dedicated formatter
         if vim.tbl_contains(skip_filetypes, filetype) then
             return
         end
-        
+
         -- Save cursor position
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
-        
+
         -- Fix indentation for the entire file
         vim.cmd("normal! gg=G")
-        
+
         -- Restore cursor position
         pcall(vim.api.nvim_win_set_cursor, 0, cursor_pos)
     end,

@@ -1,268 +1,280 @@
 return {
-  "neovim/nvim-lspconfig",
-  event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
-    { "antosha417/nvim-lsp-file-operations", config = true },
-    { "folke/neodev.nvim", opts = {} },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      dependencies = { "williamboman/mason.nvim" },
-    },
-  },
-  config = function()
-    -- import lspconfig plugin
-    local lspconfig = require("lspconfig")
-
-    -- import mason_lspconfig plugin
-    local mason_lspconfig = require("mason-lspconfig")
-
-    -- import cmp-nvim-lsp plugin
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-    local keymap = vim.keymap -- for conciseness
-
-    vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-      callback = function(ev)
-        -- Buffer local mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf, silent = true }
-
-        -- set keybinds
-        opts.desc = "Show LSP references"
-        keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
-        opts.desc = "Go to declaration"
-        keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-        opts.desc = "Show LSP definitions"
-        keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
-        opts.desc = "Show LSP implementations"
-        keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-        opts.desc = "Show LSP type definitions"
-        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-        opts.desc = "See available code actions"
-        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-        opts.desc = "Smart rename"
-        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-        opts.desc = "Show buffer diagnostics"
-        keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-        opts.desc = "Show line diagnostics"
-        keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-        opts.desc = "Go to previous diagnostic"
-        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-        opts.desc = "Go to next diagnostic"
-        keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-
-        opts.desc = "Show documentation for what is under cursor"
-        keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
-        opts.desc = "Restart LSP"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-      end,
-    })
-
-    -- used to enable autocompletion (assign to every lsp server config)
-    local capabilities = cmp_nvim_lsp.default_capabilities()
-
-    -- Change the Diagnostic symbols in the sign column (gutter)
-    -- (not in youtube nvim video)
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    vim.diagnostic.config({
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = signs.Error,
-          [vim.diagnostic.severity.WARN] = signs.Warn,
-          [vim.diagnostic.severity.HINT] = signs.Hint,
-          [vim.diagnostic.severity.INFO] = signs.Info,
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        { "antosha417/nvim-lsp-file-operations", config = true },
+        { "folke/neodev.nvim", opts = {} },
+        {
+            "williamboman/mason-lspconfig.nvim",
+            dependencies = { "williamboman/mason.nvim" },
         },
-      },
-      underline = true, -- Enable underline for diagnostics (squiggly lines)
-      virtual_text = {
-        spacing = 4,
-        source = "if_many",
-        prefix = "●",
-      },
-      float = {
-        focusable = false,
-        style = "minimal",
-        border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
-      },
-      severity_sort = true,
-    })
+    },
+    config = function()
+        -- Setup neodev BEFORE lspconfig
+        require("neodev").setup({})
 
-    -- Configure individual language servers
-    local servers = mason_lspconfig.get_installed_servers()
+        -- import lspconfig plugin
+        local lspconfig = require("lspconfig")
 
-    -- If no servers are installed yet, setup common ones manually
-    if #servers == 0 then
-      servers = {
-        "ts_ls",
-        "lua_ls",
-        "html",
-        "cssls",
-        "tailwindcss",
-        "svelte",
-        "graphql",
-        "emmet_ls",
-        "prismals",
-        "pyright",
-        "clangd",
-        "gopls",
-        "rust_analyzer",
-        "jdtls",
-      }
-    end
+        -- import mason_lspconfig plugin
+        local mason_lspconfig = require("mason-lspconfig")
 
-    -- Setup all installed servers with default config
-    for _, server_name in ipairs(servers) do
-      if server_name == "svelte" then
-        -- configure svelte server
-        lspconfig["svelte"].setup({
-          capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePost", {
-              pattern = { "*.js", "*.ts" },
-              callback = function(ctx)
-                -- Here use ctx.match instead of ctx.file
-                client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-              end,
-            })
-          end,
+        -- import cmp-nvim-lsp plugin
+        local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+        local keymap = vim.keymap -- for conciseness
+
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+            callback = function(ev)
+                -- Buffer local mappings.
+                -- See `:help vim.lsp.*` for documentation on any of the below functions
+                local opts = { buffer = ev.buf, silent = true }
+
+                -- set keybinds
+                opts.desc = "Show LSP references"
+                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+
+                opts.desc = "Go to declaration"
+                keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+
+                opts.desc = "Show LSP definitions"
+                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+
+                opts.desc = "Show LSP implementations"
+                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+
+                opts.desc = "Show LSP type definitions"
+                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+
+                opts.desc = "See available code actions"
+                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+
+                opts.desc = "Smart rename"
+                keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+
+                opts.desc = "Show buffer diagnostics"
+                keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+
+                opts.desc = "Show line diagnostics"
+                keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+
+                opts.desc = "Go to previous diagnostic"
+                keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+
+                opts.desc = "Go to next diagnostic"
+                keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+
+                opts.desc = "Show documentation for what is under cursor"
+                keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+
+                opts.desc = "Restart LSP"
+                keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+            end,
         })
-      elseif server_name == "graphql" then
-        -- configure graphql language server
-        lspconfig["graphql"].setup({
-          capabilities = capabilities,
-          filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-        })
-      elseif server_name == "emmet_ls" then
-        -- configure emmet language server
-        lspconfig["emmet_ls"].setup({
-          capabilities = capabilities,
-          filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-        })
-      elseif server_name == "lua_ls" then
-        -- configure lua server (with special settings)
-        lspconfig["lua_ls"].setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              -- make the language server recognize "vim" global
-              diagnostics = {
-                globals = { "vim" },
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
-          },
-        })
-      elseif server_name == "clangd" then
-        -- configure C/C++ language server
-        lspconfig["clangd"].setup({
-          capabilities = capabilities,
-          cmd = { "clangd", "--background-index", "--clang-tidy" },
-          filetypes = { "c", "cpp", "objc", "objcpp" },
-        })
-      elseif server_name == "gopls" then
-        -- configure Go language server
-        lspconfig["gopls"].setup({
-          capabilities = capabilities,
-          settings = {
-            gopls = {
-              analyses = {
-                unusedparams = true,
-              },
-              staticcheck = true,
-            },
-          },
-        })
-      elseif server_name == "rust_analyzer" then
-        -- configure Rust language server
-        lspconfig["rust_analyzer"].setup({
-          capabilities = capabilities,
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = {
-                allFeatures = true,
-              },
-              checkOnSave = {
-                command = "clippy",
-              },
-            },
-          },
-        })
-      elseif server_name == "ts_ls" then
-        -- configure TypeScript/JavaScript language server
-        lspconfig["ts_ls"].setup({
-          capabilities = capabilities,
-          filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-          settings = {
-            typescript = {
-              inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-            javascript = {
-              inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-          },
-        })
-      elseif server_name == "jdtls" then
-        -- configure Java language server
-        lspconfig["jdtls"].setup({
-          capabilities = capabilities,
-          settings = {
-            java = {
-              configuration = {
-                updateBuildConfiguration = "interactive",
-              },
-              completion = {
-                favoriteStaticMembers = {
-                  "org.hamcrest.MatcherAssert.assertThat",
-                  "org.hamcrest.Matchers.*",
-                  "org.hamcrest.CoreMatchers.*",
-                  "org.junit.jupiter.api.Assertions.*",
-                  "java.util.Objects.requireNonNull",
-                  "java.util.Objects.requireNonNullElse",
+
+        -- used to enable autocompletion (assign to every lsp server config)
+        local capabilities = cmp_nvim_lsp.default_capabilities()
+
+        -- Change the Diagnostic symbols in the sign column (gutter)
+        -- (not in youtube nvim video)
+        local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+        vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = signs.Error,
+                    [vim.diagnostic.severity.WARN] = signs.Warn,
+                    [vim.diagnostic.severity.HINT] = signs.Hint,
+                    [vim.diagnostic.severity.INFO] = signs.Info,
                 },
-              },
             },
-          },
+            underline = true, -- Enable underline for diagnostics (squiggly lines)
+            virtual_text = {
+                spacing = 4,
+                source = "if_many",
+                prefix = "●",
+            },
+            float = {
+                focusable = false,
+                style = "minimal",
+                border = "rounded",
+                source = "always",
+                header = "",
+                prefix = "",
+            },
+            severity_sort = true,
         })
-      else
-        -- Default configuration for other servers
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end
-    end
-  end,
+
+        -- Configure individual language servers
+        local servers = mason_lspconfig.get_installed_servers()
+
+        -- If no servers are installed yet, setup common ones manually
+        if #servers == 0 then
+            servers = {
+                "ts_ls",
+                "lua_ls",
+                "html",
+                "cssls",
+                "tailwindcss",
+                "svelte",
+                "graphql",
+                "emmet_ls",
+                "prismals",
+                "pyright",
+                "clangd",
+                "gopls",
+                "rust_analyzer",
+                "jdtls",
+            }
+        end
+
+        -- Setup all installed servers with default config
+        for _, server_name in ipairs(servers) do
+            if server_name == "svelte" then
+                -- configure svelte server
+                lspconfig["svelte"].setup({
+                    capabilities = capabilities,
+                    on_attach = function(client, bufnr)
+                        vim.api.nvim_create_autocmd("BufWritePost", {
+                            pattern = { "*.js", "*.ts" },
+                            callback = function(ctx)
+                                -- Here use ctx.match instead of ctx.file
+                                client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+                            end,
+                        })
+                    end,
+                })
+            elseif server_name == "graphql" then
+                -- configure graphql language server
+                lspconfig["graphql"].setup({
+                    capabilities = capabilities,
+                    filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+                })
+            elseif server_name == "emmet_ls" then
+                -- configure emmet language server
+                lspconfig["emmet_ls"].setup({
+                    capabilities = capabilities,
+                    filetypes = {
+                        "html",
+                        "typescriptreact",
+                        "javascriptreact",
+                        "css",
+                        "sass",
+                        "scss",
+                        "less",
+                        "svelte",
+                    },
+                })
+            elseif server_name == "lua_ls" then
+                -- configure lua server (with special settings)
+                lspconfig["lua_ls"].setup({
+                    capabilities = capabilities,
+                    settings = {
+                        Lua = {
+                            -- make the language server recognize "vim" global
+                            diagnostics = {
+                                globals = { "vim" },
+                            },
+                            completion = {
+                                callSnippet = "Replace",
+                            },
+                        },
+                    },
+                })
+            elseif server_name == "clangd" then
+                -- configure C/C++ language server
+                lspconfig["clangd"].setup({
+                    capabilities = capabilities,
+                    cmd = { "clangd", "--background-index", "--clang-tidy" },
+                    filetypes = { "c", "cpp", "objc", "objcpp" },
+                })
+            elseif server_name == "gopls" then
+                -- configure Go language server
+                lspconfig["gopls"].setup({
+                    capabilities = capabilities,
+                    settings = {
+                        gopls = {
+                            analyses = {
+                                unusedparams = true,
+                            },
+                            staticcheck = true,
+                        },
+                    },
+                })
+            elseif server_name == "rust_analyzer" then
+                -- configure Rust language server
+                lspconfig["rust_analyzer"].setup({
+                    capabilities = capabilities,
+                    settings = {
+                        ["rust-analyzer"] = {
+                            cargo = {
+                                allFeatures = true,
+                            },
+                            checkOnSave = {
+                                command = "clippy",
+                            },
+                        },
+                    },
+                })
+            elseif server_name == "ts_ls" then
+                -- configure TypeScript/JavaScript language server
+                lspconfig["ts_ls"].setup({
+                    capabilities = capabilities,
+                    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+                    settings = {
+                        typescript = {
+                            inlayHints = {
+                                includeInlayParameterNameHints = "all",
+                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                includeInlayFunctionParameterTypeHints = true,
+                                includeInlayVariableTypeHints = true,
+                                includeInlayPropertyDeclarationTypeHints = true,
+                                includeInlayFunctionLikeReturnTypeHints = true,
+                                includeInlayEnumMemberValueHints = true,
+                            },
+                        },
+                        javascript = {
+                            inlayHints = {
+                                includeInlayParameterNameHints = "all",
+                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                includeInlayFunctionParameterTypeHints = true,
+                                includeInlayVariableTypeHints = true,
+                                includeInlayPropertyDeclarationTypeHints = true,
+                                includeInlayFunctionLikeReturnTypeHints = true,
+                                includeInlayEnumMemberValueHints = true,
+                            },
+                        },
+                    },
+                })
+            elseif server_name == "jdtls" then
+                -- configure Java language server
+                lspconfig["jdtls"].setup({
+                    capabilities = capabilities,
+                    settings = {
+                        java = {
+                            configuration = {
+                                updateBuildConfiguration = "interactive",
+                            },
+                            completion = {
+                                favoriteStaticMembers = {
+                                    "org.hamcrest.MatcherAssert.assertThat",
+                                    "org.hamcrest.Matchers.*",
+                                    "org.hamcrest.CoreMatchers.*",
+                                    "org.junit.jupiter.api.Assertions.*",
+                                    "java.util.Objects.requireNonNull",
+                                    "java.util.Objects.requireNonNullElse",
+                                },
+                            },
+                        },
+                    },
+                })
+            else
+                -- Default configuration for other servers
+                lspconfig[server_name].setup({
+                    capabilities = capabilities,
+                })
+            end
+        end
+    end,
 }
