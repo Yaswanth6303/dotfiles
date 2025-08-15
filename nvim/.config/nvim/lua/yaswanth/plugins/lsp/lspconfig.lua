@@ -248,27 +248,8 @@ return {
                     },
                 })
             elseif server_name == "jdtls" then
-                -- configure Java language server
-                lspconfig["jdtls"].setup({
-                    capabilities = capabilities,
-                    settings = {
-                        java = {
-                            configuration = {
-                                updateBuildConfiguration = "interactive",
-                            },
-                            completion = {
-                                favoriteStaticMembers = {
-                                    "org.hamcrest.MatcherAssert.assertThat",
-                                    "org.hamcrest.Matchers.*",
-                                    "org.hamcrest.CoreMatchers.*",
-                                    "org.junit.jupiter.api.Assertions.*",
-                                    "java.util.Objects.requireNonNull",
-                                    "java.util.Objects.requireNonNullElse",
-                                },
-                            },
-                        },
-                    },
-                })
+                -- Skip JDTLS here - it's handled by nvim-jdtls plugin
+                -- See lua/yaswanth/plugins/java-lsp.lua for JDTLS configuration
             else
                 -- Default configuration for other servers
                 lspconfig[server_name].setup({
