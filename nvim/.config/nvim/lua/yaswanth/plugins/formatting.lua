@@ -26,6 +26,33 @@ return {
                 go = { "goimports" },
                 rust = { "rustfmt" },
             },
+            -- Configure formatters to use 4-space indentation
+            formatters = {
+                prettier = {
+                    args = {
+                        "--stdin-filepath",
+                        "$FILENAME",
+                        "--tab-width",
+                        "4",
+                        "--use-tabs",
+                        "false",
+                        "--single-quote",
+                        "true",
+                        "--trailing-comma",
+                        "es5",
+                        "--bracket-spacing",
+                        "true",
+                        "--bracket-same-line",
+                        "false",
+                        "--arrow-parens",
+                        "avoid",
+                        "--end-of-line",
+                        "lf",
+                        "--print-width",
+                        "100",
+                    },
+                },
+            },
             -- Formatters will use their respective config files (.prettierrc.json, .stylua.toml, etc.)
             -- which are already configured for 4-space indentation
             -- Format on save with fallback to auto-indentation
