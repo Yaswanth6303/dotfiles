@@ -123,7 +123,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
             -- "java", -- Removed so Java uses auto-indentation with 4 spaces
         }
 
-        -- Skip if file type has a dedicated formatter
+        -- Skip if file type has a dedicated formatter (conform.nvim handles these)
         if vim.tbl_contains(skip_filetypes, filetype) then
             return
         end
@@ -139,19 +139,122 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
--- Add manual indentation commands
+-- Add manual indentation commands with improved error handling
 vim.api.nvim_create_user_command("FixIndent", function()
     local cursor_pos = vim.api.nvim_win_get_cursor(0)
-    -- Convert tabs to spaces first
-    vim.cmd("%s/\t/    /g")
-    -- Then fix indentation
-    vim.cmd("normal! gg=G")
+    local filetype = vim.bo.filetype
+    
+    -- First, ensure the file has the correct indentation settings
+    vim.bo.expandtab = true
+    vim.bo.tabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.softtabstop = 4
+    
+    -- Safely convert tabs to spaces first with error handling
+    local ok, err = pcall(function()
+        vim.cmd("silent! %s/\t/    /ge")
+    end)
+    
+    if not ok then
+        vim.notify("Tab conversion failed: " .. (err or "unknown error"), vim.log.levels.WARN)
+    end
+    
+    -- Then safely fix indentation with error handling
+    ok, err = pcall(function()
+        vim.cmd("silent! normal! gg=G")
+    end)
+    
+    if not ok then
+        vim.notify("Indentation failed: " .. (err or "unknown error"), vim.log.levels.WARN)
+    end
+    
+    -- Restore cursor position
     pcall(vim.api.nvim_win_set_cursor, 0, cursor_pos)
+    
+    vim.notify("Indentation fixed for " .. (filetype or "current file"), vim.log.levels.INFO)
 end, { desc = "Fix indentation for entire file and convert tabs to 4 spaces" })
+
+-- Enhanced FixIndent command with filetype-specific handling
+vim.api.nvim_create_user_command("FixIndentSafe", function()
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+    local filetype = vim.bo.filetype
+    local buf = vim.api.nvim_get_current_buf()
+    
+    -- Check if buffer is modifiable
+    if not vim.api.nvim_buf_get_option(buf, "modifiable") then
+        vim.notify("Buffer is not modifiable", vim.log.levels.WARN)
+        return
+    end
+    
+    -- Set appropriate indentation settings based on filetype
+    vim.bo.expandtab = true
+    vim.bo.tabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.softtabstop = 4
+    
+    -- Language-specific indentation fixes
+    if filetype == "c" or filetype == "cpp" or filetype == "h" or filetype == "hpp" then
+        -- For C/C++, ensure cindent is enabled for better auto-indentation
+        vim.bo.cindent = true
+        vim.bo.cinoptions = ">4,n-2,{2,^-2,t0,+2,(0,u0,w1,m1"
+    elseif filetype == "javascript" or filetype == "typescript" or filetype == "jsx" or filetype == "tsx" then
+        -- For JavaScript/TypeScript, set appropriate settings
+        vim.bo.smartindent = true
+    elseif filetype == "python" then
+        -- Python-specific settings
+        vim.bo.smartindent = true
+        vim.bo.autoindent = true
+    end
+    
+    -- Convert tabs to spaces with error handling
+    local tab_conversion_ok = pcall(function()
+        local line_count = vim.api.nvim_buf_line_count(buf)
+        for i = 0, line_count - 1 do
+            local line = vim.api.nvim_buf_get_lines(buf, i, i + 1, false)[1]
+            if line and line:find("\t") then
+                local new_line = line:gsub("\t", "    ")
+                vim.api.nvim_buf_set_lines(buf, i, i + 1, false, { new_line })
+            end
+        end
+    end)
+    
+    if not tab_conversion_ok then
+        vim.notify("Tab conversion failed", vim.log.levels.WARN)
+    end
+    
+    -- Apply indentation with language-specific handling
+    local indent_ok = pcall(function()
+        if filetype == "c" or filetype == "cpp" or filetype == "h" or filetype == "hpp" then
+            -- Use cindent for C/C++
+            vim.cmd("silent! normal! gg=G")
+        elseif filetype == "javascript" or filetype == "typescript" then
+            -- For JS/TS, use smartindent
+            vim.cmd("silent! normal! ggVG=")
+        elseif filetype == "python" then
+            -- For Python, be more careful with indentation
+            vim.cmd("silent! normal! gg=G")
+        else
+            -- Generic indentation for other file types
+            vim.cmd("silent! normal! gg=G")
+        end
+    end)
+    
+    if not indent_ok then
+        vim.notify("Indentation failed for " .. filetype, vim.log.levels.WARN)
+    end
+    
+    -- Restore cursor position
+    pcall(vim.api.nvim_win_set_cursor, 0, cursor_pos)
+    
+    vim.notify("Indentation fixed for " .. (filetype ~= "" and filetype or "unknown file type"), vim.log.levels.INFO)
+end, { desc = "Fix indentation safely with filetype-specific handling" })
 
 -- Command to convert tabs to 4 spaces
 vim.api.nvim_create_user_command("TabsToSpaces", function()
-    vim.cmd("%s/\t/    /g")
+    pcall(function()
+        vim.cmd("silent! %s/\t/    /ge")
+    end)
+    vim.notify("Converted tabs to spaces", vim.log.levels.INFO)
 end, { desc = "Convert all tabs to 4 spaces" })
 
 -- Auto-convert tabs to spaces when opening files

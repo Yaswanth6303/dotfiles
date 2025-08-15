@@ -24,5 +24,6 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 
 -- indentation
 keymap.set("n", "<leader>fi", "<cmd>FixIndent<CR>", { desc = "Fix indentation for entire file" })
+keymap.set("n", "<leader>fI", "<cmd>FixIndentSafe<CR>", { desc = "Fix indentation safely with filetype handling" })
 keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
 keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
