@@ -247,9 +247,6 @@ return {
                         },
                     },
                 })
-            elseif server_name == "jdtls" then
-                -- Skip JDTLS here - it's handled by nvim-jdtls plugin
-                -- See lua/yaswanth/plugins/java-lsp.lua for JDTLS configuration
             else
                 -- Default configuration for other servers
                 lspconfig[server_name].setup({
