@@ -125,7 +125,6 @@ return {
                 "clangd",
                 "gopls",
                 "rust_analyzer",
-                "jdtls",
             }
         end
 
