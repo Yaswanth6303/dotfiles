@@ -10,7 +10,13 @@ return {
             dependencies = { "williamboman/mason.nvim" },
         },
     },
+
     config = function()
+        -- Setup neodev BEFORE lspconfig
+        require("neodev").setup({})
+        local lspconfig = require("lspconfig")
+        local mason_lspconfig = require("mason-lspconfig")
+        local cmp_nvim_lsp = require("cmp_nvim_lsp")
         -- Setup neodev BEFORE lspconfig
         require("neodev").setup({})
 

@@ -41,7 +41,6 @@ return {
                 "clangd", -- C/C++
                 "gopls", -- Go
                 "rust_analyzer", -- Rust
-                "jdtls", -- Java
             },
         })
 
