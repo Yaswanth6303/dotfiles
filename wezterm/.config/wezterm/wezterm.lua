@@ -19,8 +19,6 @@ config.colors = {
 	brights = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#A277FF", "#a277ff", "#24EAF7", "#24EAF7" },
 }
 
-config.color_scheme = "Catppuccin Mocha"
-
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 config.font_size = 19
 
