@@ -32,12 +32,11 @@ palette = 13=#a277ff
 palette = 14=#24EAF7
 palette = 15=#24EAF7
 
-font-size = 19
-background-blur-radius = 20
+font-size = 18
 mouse-hide-while-typing = true
 window-decoration = true
 keybind = global:cmd+/=toggle_quick_terminal
 macos-option-as-alt = true
 font-family = MesloLGS Nerd Font
-# background-opacity = 0.7
-# background-blur-radius = 20 
+background-opacity = 0.9
+background-blur-radius = 10 
