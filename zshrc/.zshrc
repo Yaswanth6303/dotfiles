@@ -27,6 +27,7 @@ source $ZSH/oh-my-zsh.sh
 # -------------------------------------
 alias cl="clear"
 alias nd="npm run dev"
+alias bd="bun run dev"
 alias cd="z"
 alias ci="cargo init"
 alias cr="cargo run"
@@ -234,3 +235,41 @@ export PATH="$HOME/go/bin:$PATH"
 # Bun
 # ------------------------------------
 alias bun-setup="bun ~/.bun/setup-project.js"
+
+
+# -----------------------------------
+# Enable vim mode
+# -----------------------------------
+bindkey -v
+
+# Keep common Emacs-style bindings inside vi mode ###
+
+# In insert mode (viins map)
+bindkey -M viins '^a' beginning-of-line   # Ctrl-a → go to start
+bindkey -M viins '^e' end-of-line         # Ctrl-e → go to end
+bindkey -M viins '^f' forward-char        # Ctrl-f → forward one char
+bindkey -M viins '^b' backward-char       # Ctrl-b → backward one char
+bindkey -M viins '^k' kill-line           # Ctrl-k → delete to end of line
+bindkey -M viins '^u' backward-kill-line  # Ctrl-u → delete to start of line
+bindkey -M viins '^y' undo                # Ctrl-y → undo
+bindkey -M viins '^w' backward-kill-word  # Ctrl-w → delete word backwards
+bindkey -M viins '^[d' kill-word          # Alt-d → delete word forwards
+bindkey -M viins '^p' up-line-or-history  # Ctrl-p → prev command
+bindkey -M viins '^n' down-line-or-history # Ctrl-n → next command
+bindkey -M viins '^l' clear-screen        # Ctrl-l → clear
+bindkey -M viins '^d' delete-char-or-list # Ctrl-d → exit if empty
+
+# Same bindings for normal mode (vicmd map) where it makes sense
+bindkey -M vicmd '^a' beginning-of-line
+bindkey -M vicmd '^e' end-of-line
+bindkey -M vicmd '^f' forward-char
+bindkey -M vicmd '^b' backward-char
+bindkey -M vicmd '^k' kill-line
+bindkey -M vicmd '^u' backward-kill-line
+bindkey -M vicmd '^y' undo
+bindkey -M vicmd '^w' backward-kill-word
+bindkey -M vicmd '^[d' kill-word
+bindkey -M vicmd '^p' up-line-or-history
+bindkey -M vicmd '^n' down-line-or-history
+bindkey -M vicmd '^l' clear-screen
+bindkey -M vicmd '^d' delete-char-or-list
