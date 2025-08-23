@@ -144,12 +144,30 @@ _fzf_comprun() {
     local command=$1
     shift
     case "$command" in
-        cd) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+        cd|z|__zoxide_z) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
         export|unset) fzf --preview "eval 'echo ${}'" "$@" ;;
         ssh) fzf --preview 'dig {}' "$@" ;;
         *) fzf --preview "$show_file_or_dir_preview" "$@" ;;
     esac
 }
+
+# Load fzf-tab after fzf setup
+zinit light Aloxaf/fzf-tab
+
+# Disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# Set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# Set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# Disable menu selection for better fzf integration
+zstyle ':completion:*' menu no
+# Preview directory's content with eza when completing cd and z (zoxide)
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath | head -200; else echo "Directory: $realpath"; fi'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath | head -200; else echo "Directory: $realpath"; fi'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath | head -200; else echo "Directory: $realpath"; fi'
+# Switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # -------------------------------------
 # 🐈 Bat (better cat)
@@ -253,7 +271,6 @@ export PATH="$HOME/go/bin:$PATH"
 # Bun
 # ------------------------------------
 alias bun-setup="bun ~/.bun/setup-project.js"
-
 
 # -----------------------------------
 # Enable vim mode
