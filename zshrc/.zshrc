@@ -6,6 +6,21 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # -------------------------------------
+# 📦 zinit
+# -------------------------------------
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+    mkdir -p "$(dirname $ZINIT_HOME)"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+# -------------------------------------
 # 🎨 Powerlevel10k Theme
 # -------------------------------------
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -118,7 +133,8 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 _fzf_compgen_path() { fd --hidden --exclude .git . "$1"; }
 _fzf_compgen_dir() { fd --type=d --hidden --exclude .git . "$1"; }
 
-source ~/fzf-git.sh/fzf-git.sh
+# Source fzf-git if it exists
+[[ -f ~/fzf-git.sh/fzf-git.sh ]] && source ~/fzf-git.sh/fzf-git.sh
 
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
