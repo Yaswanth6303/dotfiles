@@ -38,25 +38,25 @@ return {
                 "prismals",
                 "pyright",
                 -- Systems programming
-                "clangd", -- C/C++
-                "gopls", -- Go
+                "clangd",        -- C/C++
+                "gopls",         -- Go
                 "rust_analyzer", -- Rust
+                "jdtls",         -- Java language server (required by nvim-jdtls)
             },
         })
 
         mason_tool_installer.setup({
             ensure_installed = {
                 "prettier", -- prettier formatter
-                "stylua", -- lua formatter
-                "isort", -- python formatter
-                "black", -- python formatter
+                "stylua",   -- lua formatter
+                "isort",    -- python formatter
+                "black",    -- python formatter
                 "pylint",
                 "eslint_d",
                 -- Systems programming tools
                 "clang-format", -- C/C++ formatter
-                "goimports", -- Go imports formatter (includes gofmt functionality)
-                "rustfmt", -- Rust formatter
-                "google-java-format", -- Java formatter
+                "goimports",    -- Go imports formatter (includes gofmt functionality)
+                "google-java-format",
             },
         })
     end,

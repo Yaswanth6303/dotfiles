@@ -13,92 +13,70 @@ return {
         styles = { notification = { wo = { wrap = true } } },
     },
     keys = {
+        -- Notifications
         {
             "<leader>un",
-            function()
-                require("snacks").notifier.hide()
-            end,
+            function() require("snacks").notifier.hide() end,
             desc = "Dismiss All Notifications",
         },
+
+        -- Buffers
         {
             "<leader>bd",
-            function()
-                require("snacks").bufdelete()
-            end,
+            function() require("snacks").bufdelete() end,
             desc = "Delete Buffer",
         },
-        {
-            "<leader>gg",
-            function()
-                require("snacks").lazygit()
-            end,
-            desc = "Lazygit",
-        },
-        {
-            "<leader>gb",
-            function()
-                require("snacks").git.blame_line()
-            end,
-            desc = "Git Blame Line",
-        },
-        {
-            "<leader>gB",
-            function()
-                require("snacks").gitbrowse()
-            end,
-            desc = "Git Browse",
-        },
+
         {
             "<leader>gf",
-            function()
-                require("snacks").lazygit.log_file()
-            end,
+            function() require("snacks").lazygit.log_file() end,
             desc = "Lazygit Current File History",
         },
         {
             "<leader>gl",
-            function()
-                require("snacks").lazygit.log()
-            end,
+            function() require("snacks").lazygit.log() end,
             desc = "Lazygit Log (cwd)",
         },
         {
+            "<leader>gB",
+            function() require("snacks").gitbrowse() end,
+            desc = "Git Browse Remote",
+        },
+
+        -- File ops
+        {
             "<leader>cR",
-            function()
-                require("snacks").rename.rename_file()
-            end,
+            function() require("snacks").rename.rename_file() end,
             desc = "Rename File",
         },
+
+        -- Terminal
         {
             "<leader>tt",
-            function()
-                require("snacks.terminal").toggle()
-            end,
+            function() require("snacks.terminal").toggle() end,
             desc = "Toggle Snacks Terminal",
         },
         {
             "<c-_>",
-            function()
-                require("snacks").terminal()
-            end,
-            desc = "which_key_ignore",
+            function() require("snacks").terminal() end,
+            desc = "Open Snacks Terminal",
         },
+
+        -- Words navigation
         {
             "]]",
-            function()
-                require("snacks").words.jump(vim.v.count1)
-            end,
+            function() require("snacks").words.jump(vim.v.count1) end,
             desc = "Next Reference",
             mode = { "n", "t" },
         },
         {
             "[[",
-            function()
-                require("snacks").words.jump(-vim.v.count1)
-            end,
+            function() require("snacks").words.jump(-vim.v.count1) end,
             desc = "Prev Reference",
             mode = { "n", "t" },
         },
+
+        -- Neovim news
         {
             "<leader>N",
             desc = "Neovim News",
@@ -117,28 +95,27 @@ return {
         vim.api.nvim_create_autocmd("User", {
             pattern = "VeryLazy",
             callback = function()
-                -- Setup some globals for debugging (lazy-loaded)
-                _G.dd = function(...)
-                    Snacks.debug.inspect(...)
-                end
-                _G.bt = function()
-                    Snacks.debug.backtrace()
-                end
-                vim.print = _G.dd -- Override print to use snacks for ⁠ := ⁠ command
+                -- Debug helpers
+                _G.dd = function(...) Snacks.debug.inspect(...) end
+                _G.bt = function() Snacks.debug.backtrace() end
+                vim.print = _G.dd
 
-                -- Create some toggle mappings
+                -- Toggle mappings
                 Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
                 Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
                 Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
                 Snacks.toggle.diagnostics():map("<leader>ud")
                 Snacks.toggle.line_number():map("<leader>ul")
-                Snacks.toggle
-                    .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
-                    :map("<leader>uc")
+                Snacks.toggle.option("conceallevel", {
+                    off = 0,
+                    on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2,
+                }):map("<leader>uc")
                 Snacks.toggle.treesitter():map("<leader>uT")
-                Snacks.toggle
-                    .option("background", { off = "light", on = "dark", name = "Dark Background" })
-                    :map("<leader>ub")
+                Snacks.toggle.option("background", {
+                    off = "light",
+                    on = "dark",
+                    name = "Dark Background",
+                }):map("<leader>ub")
                 Snacks.toggle.inlay_hints():map("<leader>uh")
             end,
         })

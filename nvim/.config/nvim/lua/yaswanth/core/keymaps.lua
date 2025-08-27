@@ -25,12 +25,6 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 
--- Indentation
-keymap.set("n", "<leader>fi", "<cmd>FixIndent<CR>", { desc = "Fix indentation for entire file" })
-keymap.set("n", "<leader>fI", "<cmd>FixIndentSafe<CR>", { desc = "Fix indentation safely with filetype handling" })
-keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
-keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
-
 -- 🔥 Live-server keymaps
 -- Start live-server for the current file
 keymap.set("n", "<leader>ls", function()
