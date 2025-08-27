@@ -46,6 +46,7 @@ alias bd="bun run dev"
 alias cd="z"
 alias ci="cargo init"
 alias cr="cargo run"
+alias fzf-preview='fzf --preview "if [ -d {} ]; then echo \"📁 Directory: {}\"; echo; eza -1 --color=always --icons {}; elif [ -f {} ]; then echo \"📄 File: {}\"; echo; bat -n --color=always --line-range :500 {}; else echo \"Path: {}\"; fi"'
 
 # -------------------------------------
 # 🍺 Homebrew
@@ -144,7 +145,7 @@ _fzf_comprun() {
     local command=$1
     shift
     case "$command" in
-        cd|z|__zoxide_z) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+        cd|z|__zoxide_z) fzf --preview 'if [ -d {} ]; then eza -1 --color=always --icons {}; elif [ -f {} ]; then bat -n --color=always --line-range :500 {}; else echo "Path: {}"; fi' "$@" ;;
         export|unset) fzf --preview "eval 'echo ${}'" "$@" ;;
         ssh) fzf --preview 'dig {}' "$@" ;;
         *) fzf --preview "$show_file_or_dir_preview" "$@" ;;
@@ -163,9 +164,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Disable menu selection for better fzf integration
 zstyle ':completion:*' menu no
 # Preview directory's content with eza when completing cd and z (zoxide)
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath | head -200; else echo "Directory: $realpath"; fi'
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath | head -200; else echo "Directory: $realpath"; fi'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath | head -200; else echo "Directory: $realpath"; fi'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
 # Switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
@@ -308,3 +309,9 @@ bindkey -M vicmd '^p' up-line-or-history
 bindkey -M vicmd '^n' down-line-or-history
 bindkey -M vicmd '^l' clear-screen
 bindkey -M vicmd '^d' delete-char-or-list
+
+
+# -----------------------------------
+# Opencode
+# -----------------------------------
+export PATH=/Users/yaswanthgudivada/.opencode/bin:$PATH
