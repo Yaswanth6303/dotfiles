@@ -315,3 +315,6 @@ bindkey -M vicmd '^d' delete-char-or-list
 # Opencode
 # -----------------------------------
 export PATH=/Users/yaswanthgudivada/.opencode/bin:$PATH
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
