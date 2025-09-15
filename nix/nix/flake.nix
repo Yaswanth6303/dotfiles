@@ -39,6 +39,7 @@
           pkgs.stow
           pkgs.wezterm
           pkgs.lazygit
+          pkgs.awscli
         ];
 
       homebrew = {
