@@ -179,10 +179,9 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 export BAT_THEME=tokyonight_night
 
 # -------------------------------------
-# 🤯 thefuck
+# 🤯 pay-respects (replacement for thefuck)
 # -------------------------------------
-eval "$(thefuck --alias)"
-eval "$(thefuck --alias fk)"
+eval "$(pay-respects zsh)"
 
 # -------------------------------------
 # ⏳ Atuin
@@ -275,6 +274,7 @@ export PATH="$HOME/go/bin:$PATH"
 # Bun
 # ------------------------------------
 alias bun-setup="bun ~/.bun/setup-project.js"
+alias bun-setup-js="bun ~/.bun/setup-project-js.js"
 
 # -----------------------------------
 # Enable vim mode
