@@ -1,0 +1,21 @@
+# Nix build results
+result
+result-*
+
+# Nix garbage
+.direnv/
+.envrc
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Log files
+*.log

@@ -8,56 +8,83 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
-  let
-    configuration = { pkgs, config, ... }: {
-        
+  outputs = inputs @ {
+    self,
+    nix-darwin,
+    nixpkgs,
+    nix-homebrew,
+  }: let
+    configuration = {
+      pkgs,
+      config,
+      ...
+    }: {
       nixpkgs.config.allowUnfree = true;
-      
+
       # Set the primary user for homebrew and other user-specific options
       system.primaryUser = "yaswanthgudivada";
-      
+
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [ pkgs.neovim
-          pkgs.mkalias
-          pkgs.tmux
-          pkgs.eza
-          pkgs.yazi
-          pkgs.ripgrep
-          pkgs.zoxide
-          pkgs.fzf
-          pkgs.fd
-          pkgs.bat
-          pkgs.tldr
-          pkgs.pay-respects
-          pkgs.carapace
-          pkgs.rbenv
-          pkgs.keycastr
-          pkgs.monitorcontrol
-          pkgs.stow
-          pkgs.wezterm
-          pkgs.lazygit
-          pkgs.awscli
-        ];
+      environment.systemPackages = [
+        pkgs.neovim
+        pkgs.mkalias
+        pkgs.tmux
+        pkgs.eza
+        pkgs.yazi
+        pkgs.ripgrep
+        pkgs.zoxide
+        pkgs.fzf
+        pkgs.fd
+        pkgs.bat
+        pkgs.tldr
+        pkgs.pay-respects
+        pkgs.carapace
+        pkgs.rbenv
+        pkgs.keycastr
+        pkgs.monitorcontrol
+        pkgs.stow
+        pkgs.wezterm
+        pkgs.lazygit
+        pkgs.awscli
+        pkgs.tmux
+        pkgs.btop
+        pkgs.cowsay
+        pkgs.dotenvx
+        pkgs.duf
+        pkgs.dotenvx
+        pkgs.jellyfin-ffmpeg
+        pkgs.zig
+        pkgs.zls
+        pkgs.go
+        pkgs.gopls
+        pkgs.xh
+        pkgs.usql
+        pkgs.tldr
+        pkgs.tree
+        pkgs.imagemagick
+        pkgs.jujutsu
+        pkgs.lazyjj
+        pkgs.lazydocker
+      ];
 
       homebrew = {
         enable = true;
         brews = [
-            "mas"
-            "zsh-autosuggestions"
-            "zsh-syntax-highlighting"
-            "git-delta"
+          "mas"
+          "zsh-autosuggestions"
+          "zsh-syntax-highlighting"
+          "git-delta"
+          "pnpm"
         ];
         masApps = {
-            "Dropover" = 1355679052;
+          "Dropover" = 1355679052;
         };
         casks = [
-            "hammerspoon"
-            "popclip"
-            "reminders-menubar"
-            "only-switch"
+          "hammerspoon"
+          "popclip"
+          "reminders-menubar"
+          "only-switch"
         ];
         onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
@@ -65,7 +92,7 @@
       };
 
       fonts.packages = [
-          pkgs.nerd-fonts.jetbrains-mono
+        pkgs.nerd-fonts.jetbrains-mono
       ];
 
       system.activationScripts.applications.text = let
@@ -74,34 +101,22 @@
           paths = config.environment.systemPackages;
           pathsToLink = "/Applications";
         };
-      in pkgs.lib.mkForce ''
-          echo "Setting up /Applications..." >&2
-          
-          # Remove old Nix Apps folder if it exists
+      in
+        pkgs.lib.mkForce ''
+          # Set up applications.
+          echo "setting up /Applications..." >&2
           rm -rf /Applications/Nix\ Apps
-          
-          # Remove any existing symlinks to Nix store applications
-          find /Applications -type l -lname "/nix/store/*" -delete
-          
-          # Create direct symlinks in /Applications for all GUI apps
-          find ${env}/Applications -maxdepth 1 -type l -name "*.app" | while read -r src; do
+          mkdir -p /Applications/Nix\ Apps
+          find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+          while read -r src; do
             app_name=$(basename "$src")
-            target="/Applications/$app_name"
-            if [ ! -e "$target" ]; then
-              echo "Linking $app_name to /Applications" >&2
-              ln -sf "$src" "$target"
-            else
-              echo "$app_name already exists in /Applications, skipping" >&2
-            fi
+            echo "copying $src" >&2
+            ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
           done
-          
-          # Refresh Launchpad database
-          echo "Refreshing Launchpad database..." >&2
-          /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
         '';
 
       # Necessary for using flakes on this system.
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      nix.settings.experimental-features = ["nix-command" "flakes"];
 
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
@@ -119,24 +134,23 @@
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
     };
-  in
-  {
+  in {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."m4air" = nix-darwin.lib.darwinSystem {
-      modules = [ 
-          configuration
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-              nix-homebrew = {
-                  enable = true;
-                  enableRosetta = true;
-                  user = "yaswanthgudivada";
+      modules = [
+        configuration
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            enable = true;
+            enableRosetta = true;
+            user = "yaswanthgudivada";
 
-                  # If homebrew already installed in machine
-                  autoMigrate = true;
-              };
-          }
+            # If homebrew already installed in machine
+            autoMigrate = true;
+          };
+        }
       ];
     };
 
