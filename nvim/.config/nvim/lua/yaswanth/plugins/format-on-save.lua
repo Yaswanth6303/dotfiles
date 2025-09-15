@@ -39,6 +39,10 @@ return {
                 }),
                 -- Go (goimports includes gofmt)
                 null_ls.builtins.formatting.goimports,
+                -- Nix - use alejandra formatter
+                null_ls.builtins.formatting.alejandra.with({
+                    filetypes = { "nix" },
+                }),
                 -- Rust (handled by rust-analyzer LSP)
             },
         })
@@ -80,6 +84,9 @@ return {
                         elseif filetype == "rust" then
                             -- For Rust, prefer rust-analyzer
                             return client.name == "rust_analyzer"
+                        elseif filetype == "nix" then
+                            -- For Nix, prefer alejandra from null-ls or nixd
+                            return client.name == "null-ls" or client.name == "nixd"
                         elseif
                             vim.tbl_contains(
                                 { "typescript", "javascript", "typescriptreact", "javascriptreact" },

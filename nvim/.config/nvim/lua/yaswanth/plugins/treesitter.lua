@@ -54,6 +54,7 @@ return {
                 "go",
                 "gomod",
                 "gosum",
+                "nix",
             },
             incremental_selection = {
                 enable = true,

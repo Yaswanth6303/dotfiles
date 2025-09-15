@@ -298,6 +298,7 @@ return {
                 "gopls",
                 "rust_analyzer",
                 "jdtls",
+                "nixd",
             }
 
         -- Setup all installed servers with default config
@@ -709,6 +710,29 @@ return {
                                 includeInlayPropertyDeclarationTypeHints = true,
                                 includeInlayFunctionLikeReturnTypeHints = true,
                                 includeInlayEnumMemberValueHints = true,
+                            },
+                        },
+                    },
+                })
+            elseif server_name == "nixd" then
+                -- configure Nix language server
+                lspconfig["nixd"].setup({
+                    capabilities = capabilities,
+                    settings = {
+                        nixd = {
+                            nixpkgs = {
+                                expr = "import <nixpkgs> { }",
+                            },
+                            formatting = {
+                                command = { "alejandra" },
+                            },
+                            options = {
+                                nixos = {
+                                    expr = '(builtins.getFlake "/path/to/flake").nixosConfigurations.HOSTNAME.options',
+                                },
+                                home_manager = {
+                                    expr = '(builtins.getFlake "/path/to/flake").homeConfigurations."USER@HOSTNAME".options',
+                                },
                             },
                         },
                     },

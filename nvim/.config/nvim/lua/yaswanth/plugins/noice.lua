@@ -52,7 +52,7 @@ return {
                 ["cmp.entry.get_documentation"] = true,
             },
             progress = {
-                enabled = true,
+                enabled = false,
                 format = "lsp_progress",
                 format_done = "lsp_progress_done",
                 throttle = 1000 / 30,
