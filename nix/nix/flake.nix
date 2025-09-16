@@ -40,6 +40,7 @@
         pkgs.tldr
         pkgs.pay-respects
         pkgs.carapace
+        pkgs.ruby
         pkgs.rbenv
         pkgs.keycastr
         pkgs.monitorcontrol
@@ -66,6 +67,27 @@
         pkgs.jujutsu
         pkgs.lazyjj
         pkgs.lazydocker
+        pkgs.terraform
+        pkgs.shellcheck
+        pkgs.heroku
+        pkgs.speedtest-cli
+        pkgs.trufflehog
+        pkgs.sesh
+        pkgs.nushell
+        pkgs.oha
+        pkgs.nmap
+        pkgs.pympress
+        pkgs.podman
+        pkgs.podman-tui
+        pkgs.openjpeg
+        pkgs.helix
+        pkgs.fish
+        pkgs.gh
+        pkgs.gitleaks
+        pkgs.lua
+        pkgs.luajitPackages.luarocks_bootstrap
+        pkgs.macmon
+        pkgs.mailsy
       ];
 
       homebrew = {
@@ -76,6 +98,16 @@
           "zsh-syntax-highlighting"
           "git-delta"
           "pnpm"
+          "gradle"
+          "maven"
+          "mongodb-community"
+          "mongosh"
+          "mongodb-database-tools"
+          "powerlevel10k"
+          "telnet"
+        ];
+        taps = [
+          "mongodb/brew"
         ];
         masApps = {
           "Dropover" = 1355679052;
@@ -144,7 +176,7 @@
         {
           nix-homebrew = {
             enable = true;
-            enableRosetta = true;
+            enableRosetta = false;
             user = "yaswanthgudivada";
 
             # If homebrew already installed in machine
