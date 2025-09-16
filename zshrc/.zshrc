@@ -52,10 +52,9 @@ alias cr="cargo run"
 alias fzf-preview='fzf --preview "if [ -d {} ]; then echo \"📁 Directory: {}\"; echo; eza -1 --color=always --icons {}; elif [ -f {} ]; then echo \"📄 File: {}\"; echo; bat -n --color=always --line-range :500 {}; else echo \"Path: {}\"; fi"'
 
 # -------------------------------------
-# 🍺 Homebrew
+# 🍺 Homebrew (managed by nix-darwin)
 # -------------------------------------
-export PATH="/opt/homebrew/bin:$PATH"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Note: Homebrew is managed by nix-darwin, so no manual setup needed
 
 # -------------------------------------
 # ☕ SDKMAN (Java, etc.)
@@ -253,7 +252,7 @@ source <(carapace _carapace)
 # ------------------------------------
 # Ruby 
 # ------------------------------------
-eval "$(rbenv init -)"
+eval "$(rbenv init -)" 
 
 # ------------------------------------
 # Selenium
