@@ -88,6 +88,9 @@
         pkgs.luajitPackages.luarocks_bootstrap
         pkgs.macmon
         pkgs.mailsy
+        pkgs.fastfetch
+        pkgs.gnupg
+        pkgs.putty
       ];
 
       homebrew = {
