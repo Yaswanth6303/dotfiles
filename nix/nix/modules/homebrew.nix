@@ -32,6 +32,7 @@
       "popclip"
       "reminders-menubar"
       "only-switch"
+      "browserosaurus"
     ];
 
     onActivation.cleanup = "zap";

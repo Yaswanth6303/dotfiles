@@ -35,6 +35,7 @@
     gitleaks
     gh
     stow
+    gitea
 
     # === Programming Languages & Tools ===
     # Go
@@ -67,6 +68,7 @@
     podman-tui
     lazydocker
     dotenvx
+    opentofu
 
     # === Network & Security ===
     xh
