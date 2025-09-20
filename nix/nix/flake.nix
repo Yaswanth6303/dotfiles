@@ -13,176 +13,18 @@
     nix-darwin,
     nixpkgs,
     nix-homebrew,
-  }: let
-    configuration = {
-      pkgs,
-      config,
-      ...
-    }: {
-      nixpkgs.config.allowUnfree = true;
-
-      # Set the primary user for homebrew and other user-specific options
-      system.primaryUser = "yaswanthgudivada";
-
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages = [
-        pkgs.neovim
-        pkgs.mkalias
-        pkgs.tmux
-        pkgs.eza
-        pkgs.yazi
-        pkgs.ripgrep
-        pkgs.zoxide
-        pkgs.fzf
-        pkgs.fd
-        pkgs.bat
-        pkgs.tldr
-        pkgs.pay-respects
-        pkgs.carapace
-        pkgs.ruby
-        pkgs.rbenv
-        pkgs.keycastr
-        pkgs.monitorcontrol
-        pkgs.stow
-        pkgs.wezterm
-        pkgs.lazygit
-        pkgs.awscli
-        pkgs.tmux
-        pkgs.btop
-        pkgs.cowsay
-        pkgs.dotenvx
-        pkgs.duf
-        pkgs.dotenvx
-        pkgs.jellyfin-ffmpeg
-        pkgs.zig
-        pkgs.zls
-        pkgs.go
-        pkgs.gopls
-        pkgs.xh
-        pkgs.usql
-        pkgs.tldr
-        pkgs.tree
-        pkgs.imagemagick
-        pkgs.jujutsu
-        pkgs.lazyjj
-        pkgs.lazydocker
-        pkgs.terraform
-        pkgs.shellcheck
-        pkgs.heroku
-        pkgs.speedtest-cli
-        pkgs.trufflehog
-        pkgs.sesh
-        pkgs.nushell
-        pkgs.oha
-        pkgs.nmap
-        pkgs.pympress
-        pkgs.podman
-        pkgs.podman-tui
-        pkgs.openjpeg
-        pkgs.helix
-        pkgs.fish
-        pkgs.gh
-        pkgs.gitleaks
-        pkgs.lua
-        pkgs.luajitPackages.luarocks_bootstrap
-        pkgs.macmon
-        pkgs.mailsy
-        pkgs.fastfetch
-        pkgs.gnupg
-        pkgs.putty
-      ];
-
-      homebrew = {
-        enable = true;
-        brews = [
-          "mas"
-          "zsh-autosuggestions"
-          "zsh-syntax-highlighting"
-          "git-delta"
-          "pnpm"
-          "gradle"
-          "maven"
-          "mongodb-community"
-          "mongosh"
-          "mongodb-database-tools"
-          "powerlevel10k"
-          "telnet"
-        ];
-        taps = [
-          "mongodb/brew"
-        ];
-        masApps = {
-          "Dropover" = 1355679052;
-        };
-        casks = [
-          "hammerspoon"
-          "popclip"
-          "reminders-menubar"
-          "only-switch"
-        ];
-        onActivation.cleanup = "zap";
-        onActivation.autoUpdate = true;
-        onActivation.upgrade = true;
-      };
-
-      fonts.packages = [
-        pkgs.nerd-fonts.jetbrains-mono
-      ];
-
-      system.activationScripts.applications.text = let
-        env = pkgs.buildEnv {
-          name = "system-applications";
-          paths = config.environment.systemPackages;
-          pathsToLink = "/Applications";
-        };
-      in
-        pkgs.lib.mkForce ''
-          # Set up applications.
-          echo "setting up /Applications..." >&2
-          rm -rf /Applications/Nix\ Apps
-          mkdir -p /Applications/Nix\ Apps
-          find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-          while read -r src; do
-            app_name=$(basename "$src")
-            echo "copying $src" >&2
-            ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-          done
-        '';
-
-      # Necessary for using flakes on this system.
-      nix.settings.experimental-features = ["nix-command" "flakes"];
-
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;
-
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
-
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 6;
-
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
-    };
-  in {
+  }: {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#simple
+    # $ darwin-rebuild build --flake .#m4air
     darwinConfigurations."m4air" = nix-darwin.lib.darwinSystem {
       modules = [
-        configuration
+        ./modules/configuration.nix
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
             enable = true;
             enableRosetta = false;
             user = "yaswanthgudivada";
-
-            # If homebrew already installed in machine
             autoMigrate = true;
           };
         }
