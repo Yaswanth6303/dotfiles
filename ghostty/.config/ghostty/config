@@ -1,4 +1,4 @@
-# theme = "catppuccin-mocha" 
+# theme = "Catppuccin Mocha" 
 
 # Core colors
 background = #011423
@@ -39,4 +39,4 @@ keybind = global:cmd+/=toggle_quick_terminal
 macos-option-as-alt = true
 font-family = MesloLGS Nerd Font
 background-opacity = 0.9
-background-blur-radius = 10 
+background-blur = true
