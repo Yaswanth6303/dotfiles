@@ -37,6 +37,7 @@ return {
                 "emmet_ls",
                 "prismals",
                 "pyright",
+                "stylua",
                 -- Systems programming
                 "clangd",        -- C/C++
                 "gopls",         -- Go
