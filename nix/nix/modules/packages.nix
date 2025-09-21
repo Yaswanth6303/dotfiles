@@ -8,6 +8,7 @@
 
     # === Terminal & Shell ===
     wezterm
+    alacritty
     tmux
     fish
     nushell
