@@ -16,6 +16,7 @@
       "mongodb-database-tools"
       "powerlevel10k"
       "telnet"
+      "gromgit/brewtils/taproom"
     ];
 
     taps = [

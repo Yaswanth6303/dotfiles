@@ -26,6 +26,9 @@
     carapace
     sesh
     btop
+    pastel
+    navi
+    stylua
 
     # === Development Tools ===
     neovim
@@ -37,6 +40,10 @@
     gh
     stow
     gitea
+    bazel
+    bazelisk
+    bazel-buildtools
+    httpie
 
     # === Programming Languages & Tools ===
     # Go
@@ -86,6 +93,7 @@
     cowsay
     duf
     mailsy
+    notesnook
 
     # === macOS Specific ===
     keycastr
