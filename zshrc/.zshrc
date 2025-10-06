@@ -46,6 +46,7 @@ source $ZSH/oh-my-zsh.sh
 alias cl="clear"
 alias nd="npm run dev"
 alias bd="bun run dev"
+alias pd="pnpm run dev"
 alias cd="z"
 alias ci="cargo init"
 alias cr="cargo run"
