@@ -23,7 +23,7 @@ return {
                         "typescriptreact",
                     },
                 }),
-                -- Lua
+                -- Lua (stylua installed via Nix)
                 null_ls.builtins.formatting.stylua,
                 -- Python
                 null_ls.builtins.formatting.black,

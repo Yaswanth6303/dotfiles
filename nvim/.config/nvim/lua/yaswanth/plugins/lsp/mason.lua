@@ -37,7 +37,6 @@ return {
                 "emmet_ls",
                 "prismals",
                 "pyright",
-                "stylua",
                 -- Systems programming
                 "clangd",        -- C/C++
                 "gopls",         -- Go
@@ -49,7 +48,7 @@ return {
         mason_tool_installer.setup({
             ensure_installed = {
                 "prettier", -- prettier formatter
-                "stylua",   -- lua formatter
+                -- "stylua", -- lua formatter (installed via Nix)
                 "isort",    -- python formatter
                 "black",    -- python formatter
                 "pylint",

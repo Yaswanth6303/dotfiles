@@ -15,8 +15,9 @@ return {
         -- Setup neodev BEFORE lspconfig
         require("neodev").setup({})
 
-        -- import lspconfig plugin
-        local lspconfig = require("lspconfig")
+        -- Check if vim.lsp.config is available (Neovim 0.11+)
+        local use_new_api = vim.lsp.config ~= nil
+        local lspconfig = not use_new_api and require("lspconfig") or nil
 
         -- import mason_lspconfig plugin
         local mason_lspconfig = require("mason-lspconfig")
@@ -237,6 +238,20 @@ return {
 
         -- used to enable autocompletion (assign to every lsp server config)
         local capabilities = cmp_nvim_lsp.default_capabilities()
+        
+        -- Helper function to setup LSP servers with both old and new APIs
+        local function setup_lsp_server(server_name, config)
+            config = config or {}
+            config.capabilities = config.capabilities or capabilities
+            
+            if use_new_api then
+                -- Use new vim.lsp.config API (Neovim 0.11+)
+                vim.lsp.config[server_name] = config
+            else
+                -- Use traditional lspconfig API
+                lspconfig[server_name].setup(config)
+            end
+        end
 
         -- Change the Diagnostic symbols in the sign column (gutter)
         local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
@@ -278,11 +293,54 @@ return {
             update_in_insert = false,
         })
 
+        -- Configure mason-lspconfig to work with both APIs
+        if use_new_api then
+            -- For new API, we need to ensure servers are available before configuration
+            mason_lspconfig.setup({
+                automatic_installation = true,
+            })
+        else
+            -- Traditional mason-lspconfig setup
+            mason_lspconfig.setup({
+                automatic_installation = true,
+            })
+        end
+
         -- Configure individual language servers
-        local servers = mason_lspconfig.get_installed_servers()
+        local installed_servers = mason_lspconfig.get_installed_servers()
+        
+        -- Filter out non-language servers (formatters, linters, etc.)
+        local non_lsp_tools = {
+            "stylua",
+            "prettier",
+            "black",
+            "isort",
+            "eslint_d",
+            "google-java-format",
+            "clang-format",
+            "goimports",
+            "alejandra"
+        }
+        
+        local function is_language_server(server_name)
+            for _, tool in ipairs(non_lsp_tools) do
+                if server_name == tool then
+                    return false
+                end
+            end
+            return true
+        end
+        
+        -- Filter installed servers to only include actual language servers
+        local filtered_servers = {}
+        for _, server in ipairs(installed_servers) do
+            if is_language_server(server) then
+                table.insert(filtered_servers, server)
+            end
+        end
 
         -- If no servers are installed yet, setup common ones manually
-        servers = #servers > 0 and servers
+        local servers = #filtered_servers > 0 and filtered_servers
             or {
                 "ts_ls",
                 "lua_ls",
@@ -305,8 +363,7 @@ return {
         for _, server_name in ipairs(servers) do
             if server_name == "svelte" then
                 -- configure svelte server
-                lspconfig["svelte"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("svelte", {
                     on_attach = function(client, bufnr)
                         vim.api.nvim_create_autocmd("BufWritePost", {
                             pattern = { "*.js", "*.ts" },
@@ -319,14 +376,12 @@ return {
                 })
             elseif server_name == "graphql" then
                 -- configure graphql language server
-                lspconfig["graphql"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("graphql", {
                     filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
                 })
             elseif server_name == "emmet_ls" then
                 -- configure emmet language server
-                lspconfig["emmet_ls"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("emmet_ls", {
                     filetypes = {
                         "html",
                         "typescriptreact",
@@ -340,8 +395,7 @@ return {
                 })
             elseif server_name == "lua_ls" then
                 -- configure lua server (with special settings)
-                lspconfig["lua_ls"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("lua_ls", {
                     settings = {
                         Lua = {
                             -- make the language server recognize "vim" global
@@ -356,15 +410,13 @@ return {
                 })
             elseif server_name == "clangd" then
                 -- configure C/C++ language server
-                lspconfig["clangd"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("clangd", {
                     cmd = { "clangd", "--background-index", "--clang-tidy" },
                     filetypes = { "c", "cpp", "objc", "objcpp" },
                 })
             elseif server_name == "gopls" then
                 -- configure Go language server
-                lspconfig["gopls"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("gopls", {
                     settings = {
                         gopls = {
                             analyses = {
@@ -376,8 +428,7 @@ return {
                 })
             elseif server_name == "rust_analyzer" then
                 -- configure Rust language server
-                lspconfig["rust_analyzer"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("rust_analyzer", {
                     settings = {
                         ["rust-analyzer"] = {
                             cargo = {
@@ -393,9 +444,7 @@ return {
                 -- Enhanced Java language server configuration with auto-detection
                 local java_runtimes = detect_java_runtimes()
 
-                lspconfig["jdtls"].setup({
-                    capabilities = capabilities,
-
+                setup_lsp_server("jdtls", {
                     -- Dynamic root directory detection
                     root_dir = get_java_project_root,
 
@@ -686,8 +735,7 @@ return {
                 })
             elseif server_name == "ts_ls" then
                 -- configure TypeScript/JavaScript language server
-                lspconfig["ts_ls"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("ts_ls", {
                     filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
                     settings = {
                         typescript = {
@@ -716,8 +764,7 @@ return {
                 })
             elseif server_name == "nixd" then
                 -- configure Nix language server
-                lspconfig["nixd"].setup({
-                    capabilities = capabilities,
+                setup_lsp_server("nixd", {
                     settings = {
                         nixd = {
                             nixpkgs = {
@@ -739,9 +786,7 @@ return {
                 })
             else
                 -- Default configuration for other servers
-                lspconfig[server_name].setup({
-                    capabilities = capabilities,
-                })
+                setup_lsp_server(server_name, {})
             end
         end
 
