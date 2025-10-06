@@ -55,7 +55,18 @@ return {
                 local filetype = vim.bo[bufnr].filetype
 
                 -- Skip formatting for certain filetypes or large files
-                if vim.tbl_contains({ "oil" }, filetype) then
+                if vim.tbl_contains({ "oil", "", "txt", "log", "gitcommit", "gitrebase", "help", "man", "qf" }, filetype) then
+                    return
+                end
+                
+                -- Only format if we have formatters configured for this filetype
+                local supported_filetypes = {
+                    "javascript", "typescript", "css", "html", "json", "markdown", "yaml",
+                    "javascriptreact", "typescriptreact", "lua", "python", "java", "c", "cpp",
+                    "go", "nix", "rust"
+                }
+                
+                if not vim.tbl_contains(supported_filetypes, filetype) then
                     return
                 end
 
@@ -68,7 +79,37 @@ return {
 
                 -- Format with timeout and error handling
                 local format_timeout = 5000 -- 5 seconds
+                
+                -- Check if any LSP client supports formatting before attempting
+                local clients = vim.lsp.get_clients({ bufnr = bufnr })
+                local has_formatter = false
+                
+                for _, client in ipairs(clients) do
+                    if client.supports_method("textDocument/formatting") then
+                        has_formatter = true
+                        break
+                    end
+                end
+                
+                -- Also check if null-ls has a formatter for this filetype
+                local null_ls_ok, null_ls = pcall(require, "null-ls")
+                if null_ls_ok and null_ls.is_registered({ method = "formatting", filetype = filetype }) then
+                    has_formatter = true
+                end
+                
+                if not has_formatter then
+                    return -- Silently skip formatting if no formatter is available
+                end
 
+                -- Suppress LSP format error notifications
+                local old_notify = vim.notify
+                vim.notify = function(msg, level, opts)
+                    if type(msg) == "string" and msg:match("Format request failed") then
+                        return -- Suppress format failure notifications
+                    end
+                    old_notify(msg, level, opts)
+                end
+                
                 vim.lsp.buf.format({
                     bufnr = bufnr,
                     async = false,
@@ -101,6 +142,9 @@ return {
                         end
                     end,
                 })
+                
+                -- Restore original notify function
+                vim.notify = old_notify
             end,
         })
 
