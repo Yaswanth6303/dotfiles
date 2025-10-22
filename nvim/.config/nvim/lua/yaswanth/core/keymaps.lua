@@ -28,13 +28,13 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 -- 🔥 Live-server keymaps
 -- Start live-server for the current file
 keymap.set("n", "<leader>ls", function()
-    local file = vim.fn.expand("%:p") -- full path of current file
-    vim.fn.jobstart({ "live-server", file }, { detach = true })
-    print("🚀 live-server started for " .. file)
+  local file = vim.fn.expand("%:p") -- full path of current file
+  vim.fn.jobstart({ "live-server", file }, { detach = true })
+  print("🚀 live-server started for " .. file)
 end, { desc = "Start live-server for current file" })
 
 -- Stop live-server
 keymap.set("n", "<leader>lk", function()
-    vim.fn.jobstart("pkill -f live-server")
-    print("🛑 live-server stopped")
+  vim.fn.jobstart("pkill -f live-server")
+  print("🛑 live-server stopped")
 end, { desc = "Stop live-server" })

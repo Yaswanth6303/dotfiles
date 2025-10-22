@@ -18,24 +18,24 @@ opt.smarttab = true -- smart tab behavior
 
 -- Web development indentation (2 spaces)
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = {
-        "javascript",
-        "typescript",
-        "javascriptreact",
-        "typescriptreact",
-        "html",
-        "css",
-        "scss",
-        "json",
-        "yaml",
-        "vue",
-        "svelte",
-    },
-    callback = function()
-        vim.opt_local.tabstop = 2
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.softtabstop = 2
-    end,
+  pattern = {
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "html",
+    "css",
+    "scss",
+    "json",
+    "yaml",
+    "vue",
+    "svelte",
+  },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
 })
 
 opt.wrap = false
