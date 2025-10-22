@@ -28,11 +28,6 @@ return {
         -- Python
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.isort,
-        -- Java - use google-java-format
-        null_ls.builtins.formatting.google_java_format.with({
-          filetypes = { "java" },
-          extra_args = { "--aosp" }, -- Use AOSP style (4-space indents) or remove for 2-space
-        }),
         -- C/C++
         null_ls.builtins.formatting.clang_format.with({
           filetypes = { "c", "cpp" },
@@ -122,10 +117,7 @@ return {
           timeout_ms = format_timeout,
           filter = function(client)
             -- Prefer null-ls for certain filetypes, LSP for others
-            if filetype == "java" then
-              -- For Java, prefer google-java-format from null-ls over jdtls
-              return client.name == "null-ls"
-            elseif filetype == "go" then
+            if filetype == "go" then
               -- For Go, prefer goimports from null-ls
               return client.name == "null-ls" or client.name == "gopls"
             elseif filetype == "rust" then

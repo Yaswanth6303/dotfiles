@@ -1,6 +1,5 @@
 require("yaswanth.core")
 require("yaswanth.lazy")
-require("yaswanth.lsp")
 
 -- Fix for deprecated vim.lsp.get_active_clients() in Neovim 0.10+
 if vim.lsp.get_active_clients then
