@@ -29,6 +29,10 @@
     pastel
     navi
     stylua
+    cbonsai
+    croc
+    ttyd
+    wttrbar
 
     # === Development Tools ===
     neovim
@@ -44,6 +48,7 @@
     bazelisk
     bazel-buildtools
     httpie
+    python313Packages.faker
 
     # === Programming Languages & Tools ===
     # Go

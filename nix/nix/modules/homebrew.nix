@@ -17,6 +17,7 @@
       "powerlevel10k"
       "telnet"
       "gromgit/brewtils/taproom"
+      "asciinema"
     ];
 
     taps = [
