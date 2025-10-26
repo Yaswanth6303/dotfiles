@@ -4,9 +4,9 @@
 # -------------------------------------
 # 🚀 Instant Prompt for Powerlevel10k
 # -------------------------------------
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # -------------------------------------
 # 📦 zinit
@@ -26,19 +26,19 @@ source "${ZINIT_HOME}/zinit.zsh"
 # -------------------------------------
 # 🎨 Powerlevel10k Theme
 # -------------------------------------
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
-POWERLEVEL9K_DIR_PATH_SEPARATOR="/"
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_left"
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
+# POWERLEVEL9K_DIR_PATH_SEPARATOR="/"
+# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_left"
 
 # -------------------------------------
 # 💡 Oh My Zsh
 # -------------------------------------
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
+# export ZSH="$HOME/.oh-my-zsh"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
+# plugins=(git)
+#
+# source $ZSH/oh-my-zsh.sh
 
 # -------------------------------------
 # 🧠 General Aliases & Config
@@ -319,5 +319,13 @@ bindkey -M vicmd '^d' delete-char-or-list
 # -----------------------------------
 export PATH=/Users/yaswanthgudivada/.opencode/bin:$PATH
 
+
+# -----------------------------------
+# Starship
+# -----------------------------------
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+eval "$(starship init zsh)"
+
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+. "/Users/yaswanthgudivada/.deno/env"
