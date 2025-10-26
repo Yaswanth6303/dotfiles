@@ -1,33 +1,10 @@
 return {
-  "williamboman/mason.nvim",
-  dependencies = {
+  {
     "williamboman/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-  },
-  config = function()
-    -- import mason
-    local mason = require("mason")
-
-    -- import mason-lspconfig
-    local mason_lspconfig = require("mason-lspconfig")
-
-    local mason_tool_installer = require("mason-tool-installer")
-
-    -- enable mason and configure icons
-    mason.setup({
-      ui = {
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗",
-        },
-      },
-    })
-
-    mason_lspconfig.setup({
+    opts = {
       -- list of servers for mason to install
       ensure_installed = {
-        "ts_ls", -- TypeScript/JavaScript language server (replaces deprecated tsserver)
+        "ts_ls",
         "html",
         "cssls",
         "tailwindcss",
@@ -37,25 +14,39 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
-        -- Systems programming
-        "clangd", -- C/C++
-        "gopls", -- Go
-        "rust_analyzer", -- Rust
+        "eslint",
       },
-    })
-
-    mason_tool_installer.setup({
+    },
+    dependencies = {
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ui = {
+            icons = {
+              package_installed = "✓",
+              package_pending = "➜",
+              package_uninstalled = "✗",
+            },
+          },
+        },
+      },
+      "neovim/nvim-lspconfig",
+    },
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    opts = {
       ensure_installed = {
         "prettier", -- prettier formatter
-        -- "stylua", -- lua formatter (installed via Nix)
+        "stylua", -- lua formatter
         "isort", -- python formatter
         "black", -- python formatter
         "pylint",
         "eslint_d",
-        -- Systems programming tools
-        "clang-format", -- C/C++ formatter
-        "goimports", -- Go imports formatter (includes gofmt functionality)
       },
-    })
-  end,
+    },
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
+  },
 }
