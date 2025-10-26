@@ -48,6 +48,7 @@
     bazel-buildtools
     httpie
     python313Packages.faker
+    pass
 
     # === Programming Languages & Tools ===
     # Go

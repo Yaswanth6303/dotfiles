@@ -18,6 +18,7 @@
       "telnet"
       "gromgit/brewtils/taproom"
       "asciinema"
+      "TheZoraiz/ascii-image-converter/ascii-image-converter"
     ];
 
     taps = [
