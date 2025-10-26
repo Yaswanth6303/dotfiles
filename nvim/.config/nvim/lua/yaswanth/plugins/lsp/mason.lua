@@ -15,6 +15,12 @@ return {
         "prismals",
         "pyright",
         "eslint",
+        "gopls",
+        "rust_analyzer",
+        "nil_ls",
+        "clangd",
+        "bashls",
+        "sqls",
       },
     },
     dependencies = {
@@ -43,6 +49,12 @@ return {
         "black", -- python formatter
         "pylint",
         "eslint_d",
+        "goimports", -- go imports
+        "gofumpt", -- go formatter
+        "alejandra", -- nix formatter
+        "clang-format", -- c/c++ formatter
+        "shfmt", -- shell formatter
+        "sqlfluff", -- sql formatter
       },
     },
     dependencies = {
