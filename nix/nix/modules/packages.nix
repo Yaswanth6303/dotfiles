@@ -8,7 +8,6 @@
 
     # === Terminal & Shell ===
     wezterm
-    alacritty
     tmux
     fish
     nushell
@@ -28,11 +27,11 @@
     btop
     pastel
     navi
-    stylua
     cbonsai
     croc
     ttyd
     wttrbar
+    starship
 
     # === Development Tools ===
     neovim
