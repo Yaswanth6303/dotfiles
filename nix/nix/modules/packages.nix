@@ -37,8 +37,6 @@
     neovim
     helix
     lazygit
-    jujutsu
-    lazyjj
     gitleaks
     gh
     stow

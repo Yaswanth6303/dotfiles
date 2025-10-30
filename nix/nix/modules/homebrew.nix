@@ -9,8 +9,6 @@
       "zsh-syntax-highlighting"
       "git-delta"
       "pnpm"
-      "gradle"
-      "maven"
       "mongodb-community"
       "mongosh"
       "mongodb-database-tools"
@@ -19,6 +17,8 @@
       "gromgit/brewtils/taproom"
       "asciinema"
       "TheZoraiz/ascii-image-converter/ascii-image-converter"
+      "jj"
+      "lazyjj"
     ];
 
     taps = [
