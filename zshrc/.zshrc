@@ -326,6 +326,11 @@ export PATH=/Users/yaswanthgudivada/.opencode/bin:$PATH
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 
+# -----------------------------------
+# Deno
+# -----------------------------------
+. "/Users/yaswanthgudivada/.deno/env"
+
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
-. "/Users/yaswanthgudivada/.deno/env"
+
