@@ -1,6 +1,5 @@
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 # -------------------------------------
 # 🚀 Instant Prompt for Powerlevel10k
 # -------------------------------------
@@ -275,6 +274,7 @@ export PATH="$HOME/go/bin:$PATH"
 # ------------------------------------
 alias bun-setup="bun ~/.bun/setup-project.js"
 alias bun-setup-js="bun ~/.bun/setup-project-js.js"
+alias vite-setup="bun ~/.bun/vite-shadcn-bun.js"
 
 # -----------------------------------
 # Enable vim mode
@@ -334,8 +334,20 @@ eval "$(starship init zsh)"
 # -----------------------------------
 # MySQL
 # -----------------------------------
-export PATH="/usr/local/mysql/bin:$PATH"
+export PATH="/usr/local/mysql/bin:$PATH"# Added by Antigravity
+export PATH="/Users/yaswanthgudivada/.antigravity/antigravity/bin:$PATH"
 
-# Amazon Q post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 
+# -----------------------------------
+# Anthropic
+# -----------------------------------
+export ANTHROPIC_BASE_URL="http://localhost:8080"
+export ANTHROPIC_API_KEY="test"
+
+# -----------------------------------
+# Docker
+# -----------------------------------
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
