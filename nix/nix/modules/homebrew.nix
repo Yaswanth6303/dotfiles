@@ -19,6 +19,9 @@
       "TheZoraiz/ascii-image-converter/ascii-image-converter"
       "jj"
       "lazyjj"
+      "mycli"
+      "sinelaw/fresh/fresh-editor"
+      "mole"
     ];
 
     taps = [
@@ -26,7 +29,6 @@
     ];
 
     masApps = {
-      "Dropover" = 1355679052;
       "Bitwarden" = 1352778147;
     };
 

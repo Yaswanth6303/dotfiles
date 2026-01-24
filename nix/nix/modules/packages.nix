@@ -7,7 +7,6 @@
     gnupg
 
     # === Terminal & Shell ===
-    wezterm
     tmux
     fish
     nushell
@@ -32,6 +31,7 @@
     ttyd
     wttrbar
     starship
+    lima
 
     # === Development Tools ===
     neovim
@@ -41,9 +41,6 @@
     gh
     stow
     gitea
-    bazel
-    bazelisk
-    bazel-buildtools
     httpie
     python313Packages.faker
     pass
@@ -52,6 +49,7 @@
     # Go
     go
     gopls
+    air # Live reload for go apps
     # Zig
     zig
     zls
@@ -66,7 +64,6 @@
     terraform
 
     # === Database Tools ===
-    mysql84
     (postgresql.withPackages (ps: [ps.pg_cron]))
     pgcli
     pgxnclient # PostgreSQL Extension Network client (from overlay)
@@ -78,7 +75,6 @@
     podman
     podman-tui
     lazydocker
-    dotenvx
     opentofu
 
     # === Network & Security ===
@@ -100,8 +96,6 @@
 
     # === macOS Specific ===
     keycastr
-    monitorcontrol
     macmon
-    brave
   ];
 }
