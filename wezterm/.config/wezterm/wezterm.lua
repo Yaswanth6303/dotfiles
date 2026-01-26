@@ -49,7 +49,7 @@ config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 config.font_size = 19
 config.line_height = 1.0
-config.cell_width = 0.92
+config.cell_width = 1.0
 
 -- 🪟 Window styling
 config.enable_tab_bar = false
