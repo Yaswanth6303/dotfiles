@@ -337,12 +337,11 @@ eval "$(starship init zsh)"
 export PATH="/usr/local/mysql/bin:$PATH"# Added by Antigravity
 export PATH="/Users/yaswanthgudivada/.antigravity/antigravity/bin:$PATH"
 
-
 # -----------------------------------
 # Anthropic
 # -----------------------------------
 export ANTHROPIC_BASE_URL="http://localhost:8080"
-export ANTHROPIC_API_KEY="test"
+export ANTHROPIC_AUTH_TOKEN="test"
 
 # -----------------------------------
 # Docker
