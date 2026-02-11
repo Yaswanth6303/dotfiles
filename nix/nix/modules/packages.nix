@@ -44,6 +44,7 @@
     httpie
     python313Packages.faker
     pass
+    emacs
 
     # === Programming Languages & Tools ===
     # Go
@@ -68,6 +69,7 @@
     pgcli
     pgxnclient # PostgreSQL Extension Network client (from overlay)
     usql # Universal SQL client
+    mysql-shell-innovation
 
     # === Cloud & DevOps ===
     awscli
@@ -76,6 +78,10 @@
     podman-tui
     lazydocker
     opentofu
+    vault
+
+    # === Web Servers ===
+    angie # Angie web server - NGINX-compatible fork (from overlay)
 
     # === Network & Security ===
     xh
@@ -93,6 +99,7 @@
     duf
     mailsy
     notesnook
+    monitorcontrol
 
     # === macOS Specific ===
     keycastr

@@ -22,6 +22,7 @@
       "mycli"
       "sinelaw/fresh/fresh-editor"
       "mole"
+      "luarocks"
     ];
 
     taps = [
