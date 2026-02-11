@@ -47,6 +47,7 @@ alias nd="npm run dev"
 alias bd="bun run dev"
 alias pd="pnpm run dev"
 alias cd="z"
+alias e="exit"
 alias ci="cargo init"
 alias cr="cargo run"
 alias fzf-preview='fzf --preview "if [ -d {} ]; then echo \"📁 Directory: {}\"; echo; eza -1 --color=always --icons {}; elif [ -f {} ]; then echo \"📄 File: {}\"; echo; bat -n --color=always --line-range :500 {}; else echo \"Path: {}\"; fi"'
@@ -347,6 +348,15 @@ export ANTHROPIC_AUTH_TOKEN="test"
 # Docker
 # -----------------------------------
 export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+# -----------------------------------
+# Jujutsu
+# -----------------------------------
+# Enable Zsh completion system
+autoload -U compinit
+compinit
+# JJ completions
+source <(jj util completion zsh)
 
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
