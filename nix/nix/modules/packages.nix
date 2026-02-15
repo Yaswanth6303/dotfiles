@@ -32,9 +32,11 @@
     wttrbar
     starship
     lima
+    fx
 
     # === Development Tools ===
     neovim
+    drawio
     helix
     lazygit
     gitleaks
@@ -45,6 +47,7 @@
     python313Packages.faker
     pass
     emacs
+    mise # To control versions and environments
 
     # === Programming Languages & Tools ===
     # Go
@@ -60,6 +63,9 @@
     # Lua
     lua
     luajitPackages.luarocks_bootstrap
+    # Buildtools
+    bazel
+    bazelisk
     # Others
     shellcheck
     terraform
@@ -81,7 +87,7 @@
     vault
 
     # === Web Servers ===
-    angie # Angie web server - NGINX-compatible fork (from overlay)
+    angie # Angie web server - NGINX-compatible fork
 
     # === Network & Security ===
     xh
@@ -100,6 +106,7 @@
     mailsy
     notesnook
     monitorcontrol
+    tuckr
 
     # === macOS Specific ===
     keycastr
