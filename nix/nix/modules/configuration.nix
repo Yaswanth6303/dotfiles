@@ -51,6 +51,12 @@
   # Shell configuration
   programs.zsh.enable = true;
 
+  # Direnv - auto-activate devbox/nix environments on cd
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   # System version and state
   system.configurationRevision = null;
   system.stateVersion = 6;
