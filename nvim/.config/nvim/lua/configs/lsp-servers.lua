@@ -12,12 +12,19 @@ vim.lsp.config.eslint = { on_attach = disable_formatting }
 vim.lsp.config.html = { on_attach = disable_formatting }
 vim.lsp.config.jsonls = { on_attach = disable_formatting }
 vim.lsp.config.cssls = { on_attach = disable_formatting }
+vim.lsp.config.tailwindcss = { on_attach = disable_formatting }
 
 -- C/C++
 vim.lsp.config.clangd = { on_attach = disable_formatting }
 
 -- Python
 vim.lsp.config.pyright = { on_attach = disable_formatting }
+
+-- Java
+vim.lsp.config.jdtls = { on_attach = disable_formatting }
+
+-- Nix
+vim.lsp.config.nil_ls = { on_attach = disable_formatting }
 
 -- Lua (Neovim config)
 vim.lsp.config.lua_ls = {

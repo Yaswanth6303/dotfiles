@@ -1,4 +1,11 @@
 local options = {
+  -- Formatter options (Java: 4-space indent only)
+  formatters = {
+    ["google-java-format"] = {
+      prepend_args = { "--aosp" },
+    },
+  },
+
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "gofumpt", "goimports", "golines" },
@@ -6,6 +13,8 @@ local options = {
     c = { "clang-format" },
     cpp = { "clang-format" },
     python = { "ruff_organize_imports", "ruff_format" },
+    java = { "google-java-format" },
+    nix = { "alejandra" },
     html = { "prettier" },
     css = { "prettier" },
     json = { "prettier" },
@@ -19,7 +28,7 @@ local options = {
 
   format_on_save = {
     timeout_ms = 1000,
-    lsp_fallback = true,
+    lsp_format = "fallback",
   },
 }
 

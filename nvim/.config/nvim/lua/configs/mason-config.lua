@@ -24,6 +24,8 @@ return {
       "marksman",
       "clangd",
       "pyright",
+      "jdtls",
+      "nil_ls",
     },
     automatic_installation = true,
   },
@@ -38,5 +40,7 @@ return {
     "eslint_d",
     "clang-format",
     "ruff",
+    "google-java-format",
+    "alejandra",
   },
 }
