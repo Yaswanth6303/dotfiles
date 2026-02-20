@@ -138,6 +138,11 @@ symbol = " "
 style = "bg:teal"
 format = '[[ $symbol( $version) ](fg:base bg:teal)]($style)'
 
+[nix_shell]
+symbol = "❄️"
+style = "bold blue"
+format = '[[ $symbol( $version) ](fg:base bg:teal)]($style)'
+
 [rust]
 symbol = ""
 style = "bg:teal"
