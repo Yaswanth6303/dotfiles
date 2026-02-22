@@ -9,4 +9,5 @@ return {
   { import = "plugins.autotag" },
   { import = "plugins.nvimtree" },
   { import = "plugins.markdown" },
+  { import = "plugins.image" },
 }

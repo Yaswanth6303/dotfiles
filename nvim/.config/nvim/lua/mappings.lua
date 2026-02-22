@@ -21,6 +21,14 @@ map("n", "<leader>du", function()
   require("dapui").toggle()
 end, { desc = "Toggle UI" })
 
+map("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+map("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
+map("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+map("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+
+map("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
+map("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
 -- Markdown
 map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown: Browser preview" })
 map("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown: Toggle in-buffer render" })

@@ -22,7 +22,11 @@ return {
     "css",
     "json",
     "yaml",
+    "toml",
     "markdown",
+    "graphql",
+    "svelte",
+    "prisma",
     -- Nix
     "nix",
   },

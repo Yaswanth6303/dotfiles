@@ -5,6 +5,10 @@ return {
     missing = true, -- Auto-install missing plugins
   },
 
+  rocks = {
+    hererocks = true,
+  },
+
   ui = {
     icons = {
       ft = "",
