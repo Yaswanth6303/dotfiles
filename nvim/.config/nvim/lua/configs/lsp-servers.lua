@@ -26,6 +26,18 @@ vim.lsp.config.jdtls = { on_attach = disable_formatting }
 -- Nix
 vim.lsp.config.nil_ls = { on_attach = disable_formatting }
 
+-- GraphQL / Svelte / Prisma
+vim.lsp.config.graphql = { on_attach = disable_formatting }
+vim.lsp.config.svelte = { on_attach = disable_formatting }
+vim.lsp.config.prismals = { on_attach = disable_formatting }
+
+-- SQL
+vim.lsp.config.sqls = { on_attach = disable_formatting }
+
+-- TOML / XML
+vim.lsp.config.taplo = { on_attach = disable_formatting }
+vim.lsp.config.lemminx = { on_attach = disable_formatting }
+
 -- Lua (Neovim config)
 vim.lsp.config.lua_ls = {
   on_attach = disable_formatting,

@@ -30,6 +30,8 @@ return {
       "svelte",
       "prismals",
       "taplo",
+      "lemminx",
+      "sqls",
     },
     automatic_installation = true,
   },
@@ -46,5 +48,7 @@ return {
     "ruff",
     "google-java-format",
     "alejandra",
+    "buildifier",
+    "sql-formatter",
   },
 }

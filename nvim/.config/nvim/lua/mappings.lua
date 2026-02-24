@@ -33,3 +33,8 @@ map("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new
 map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown: Browser preview" })
 map("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown: Toggle in-buffer render" })
 map("n", "<leader>mg", "<cmd>Glow<cr>", { desc = "Markdown: Glow floating preview" })
+
+-- SQL (dadbod)
+map("n", "<leader>St", "<cmd>DBUIToggle<cr>", { desc = "SQL: Toggle DBUI sidebar" })
+map("n", "<leader>Sq", "<cmd>DBUIFindBuffer<cr>", { desc = "SQL: Find query buffer" })
+map("n", "<leader>Sa", "<cmd>DBUIAddConnection<cr>", { desc = "SQL: Add connection" })

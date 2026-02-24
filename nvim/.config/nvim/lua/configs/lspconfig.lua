@@ -7,23 +7,8 @@ vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, conf
   end
 end
 
-local servers = {
-  "html",
-  "cssls",
-  "jsonls",
-  "tailwindcss",
-  "emmet_ls",
-  "ts_ls",
-  "eslint",
-  "marksman",
-  "gopls",
-  "rust_analyzer",
-  "clangd",
-  "lua_ls",
-  "pyright",
-  "jdtls",
-  "nil_ls",
-}
+local mason_cfg = require("configs.mason-config").lspconfig
+local servers = mason_cfg.ensure_installed
 
 vim.lsp.enable(servers)
 

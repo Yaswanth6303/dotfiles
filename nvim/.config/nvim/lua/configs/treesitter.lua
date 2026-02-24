@@ -27,6 +27,13 @@ return {
     "graphql",
     "svelte",
     "prisma",
+    "sql",
+    -- Build / config
+    "starlark",
+    "groovy",
+    "kotlin",
+    "xml",
+    "properties",
     -- Nix
     "nix",
   },

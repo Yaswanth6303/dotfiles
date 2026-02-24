@@ -10,4 +10,5 @@ return {
   { import = "plugins.nvimtree" },
   { import = "plugins.markdown" },
   { import = "plugins.image" },
+  { import = "plugins.dadbod" },
 }
