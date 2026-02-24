@@ -33,6 +33,7 @@
     starship
     lima
     fx
+    zellij
 
     # === Development Tools ===
     neovim
@@ -64,7 +65,7 @@
     lua
     luajitPackages.luarocks_bootstrap
     # Buildtools
-    bazel
+    bazel_8
     bazelisk
     # Others
     shellcheck
