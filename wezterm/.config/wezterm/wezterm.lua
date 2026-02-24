@@ -46,7 +46,7 @@ local config = wezterm.config_builder()
 config.color_scheme = "Catppuccin Mocha"
 
 -- 🖋 Font and Appearance
-config.font = wezterm.font("MesloLGS Nerd Font Mono")
+config.font = wezterm.font("MesloLGS Nerd Font")
 config.font_size = 19
 config.line_height = 1.0
 config.cell_width = 1.0
