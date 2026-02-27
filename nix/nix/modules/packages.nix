@@ -34,6 +34,7 @@
     lima
     fx
     zellij
+    qtpass
 
     # === Development Tools ===
     neovim
