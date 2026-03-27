@@ -11,7 +11,7 @@ vim.opt.relativenumber = true
 
 M.base46 = {
   theme = "catppuccin",
-
+  transparency = true,
   -- hl_override = {
   -- 	Comment = { italic = true },
   -- 	["@comment"] = { italic = true },
@@ -19,14 +19,13 @@ M.base46 = {
 }
 
 M.nvdash = { load_on_startup = true }
--- M.ui = {
---   -- tabufline = {
---   --   lazyload = false,
---   -- },
---   statusline = {
---     enabled = true,
---     theme = "vscode",
---   },
--- }
+
+M.ui = {
+  cmp = {
+    icons_left = true,
+    style = "default",
+    -- format_colors = { lsp = true, icon = "󱓻" },
+  },
+}
 
 return M

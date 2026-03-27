@@ -5,6 +5,11 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
+-- LSP rename
+map("n", "<leader>rn", function()
+  require("nvchad.lsp.renamer")()
+end, { desc = "LSP rename symbol" })
+
 -- Manual format with conform
 map("n", "<leader>fm", function()
   require("conform").format { lsp_fallback = true }
@@ -33,6 +38,16 @@ map("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new
 map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown: Browser preview" })
 map("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown: Toggle in-buffer render" })
 map("n", "<leader>mg", "<cmd>Glow<cr>", { desc = "Markdown: Glow floating preview" })
+
+-- Flutter
+map("n", "<leader>Fr", "<cmd>FlutterRun<cr>", { desc = "Flutter: Run" })
+map("n", "<leader>Fq", "<cmd>FlutterQuit<cr>", { desc = "Flutter: Quit" })
+map("n", "<leader>Fh", "<cmd>FlutterReload<cr>", { desc = "Flutter: Hot reload" })
+map("n", "<leader>FR", "<cmd>FlutterRestart<cr>", { desc = "Flutter: Hot restart" })
+map("n", "<leader>Fd", "<cmd>FlutterDevices<cr>", { desc = "Flutter: Devices" })
+map("n", "<leader>Fe", "<cmd>FlutterEmulators<cr>", { desc = "Flutter: Emulators" })
+map("n", "<leader>Fo", "<cmd>FlutterOutlineToggle<cr>", { desc = "Flutter: Widget outline" })
+map("n", "<leader>Fl", "<cmd>FlutterLogClear<cr>", { desc = "Flutter: Clear log" })
 
 -- SQL (dadbod)
 map("n", "<leader>St", "<cmd>DBUIToggle<cr>", { desc = "SQL: Toggle DBUI sidebar" })

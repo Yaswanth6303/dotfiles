@@ -4,6 +4,21 @@ local options = {
     ["google-java-format"] = {
       prepend_args = { "--aosp" },
     },
+    eslint_d = {
+      condition = function(self, ctx)
+        return vim.fs.find({
+          ".eslintrc",
+          ".eslintrc.js",
+          ".eslintrc.json",
+          ".eslintrc.yml",
+          ".eslintrc.yaml",
+          ".eslintrc.cjs",
+          "eslint.config.js",
+          "eslint.config.mjs",
+          "eslint.config.cjs",
+        }, { path = ctx.dirname, upward = true })[1] ~= nil
+      end,
+    },
   },
 
   formatters_by_ft = {
@@ -26,6 +41,7 @@ local options = {
     typescript = { "eslint_d", "prettier" },
     javascriptreact = { "eslint_d", "prettier" },
     typescriptreact = { "eslint_d", "prettier" },
+    dart = { "dart_format" },
   },
 
   format_on_save = {

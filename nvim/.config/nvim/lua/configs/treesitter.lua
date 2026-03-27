@@ -36,5 +36,7 @@ return {
     "properties",
     -- Nix
     "nix",
+    -- Dart / Flutter
+    "dart",
   },
 }

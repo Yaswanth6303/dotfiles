@@ -32,6 +32,8 @@ return {
       "taplo",
       "lemminx",
       "sqls",
+      "dockerls",
+      "docker_compose_language_service",
     },
     automatic_installation = true,
   },

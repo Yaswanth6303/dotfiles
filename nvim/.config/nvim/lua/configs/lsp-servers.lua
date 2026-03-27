@@ -34,6 +34,10 @@ vim.lsp.config.prismals = { on_attach = disable_formatting }
 -- SQL
 vim.lsp.config.sqls = { on_attach = disable_formatting }
 
+-- Docker
+vim.lsp.config.dockerls = { on_attach = disable_formatting }
+vim.lsp.config.docker_compose_language_service = { on_attach = disable_formatting }
+
 -- TOML / XML
 vim.lsp.config.taplo = { on_attach = disable_formatting }
 vim.lsp.config.lemminx = { on_attach = disable_formatting }
