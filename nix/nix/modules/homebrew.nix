@@ -4,6 +4,8 @@
     enable = true;
 
     brews = [
+      "kubectx"
+      "worktrunk"
       "mas"
       "zsh-autosuggestions"
       "zsh-syntax-highlighting"
@@ -23,10 +25,12 @@
       "sinelaw/fresh/fresh-editor"
       "mole"
       "luarocks"
+      "adibhanna/tsm/tsm"
     ];
 
     taps = [
       "mongodb/brew"
+      "adibhanna/tsm"
     ];
 
     masApps = {
@@ -39,6 +43,7 @@
       "reminders-menubar"
       "only-switch"
       "browserosaurus"
+      "flutter"
     ];
 
     onActivation.cleanup = "zap";

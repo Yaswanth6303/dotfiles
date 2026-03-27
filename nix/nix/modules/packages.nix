@@ -7,6 +7,8 @@
     gnupg
 
     # === Terminal & Shell ===
+    television
+    gawk
     tmux
     fish
     nushell
@@ -35,6 +37,7 @@
     fx
     zellij
     qtpass
+    zbar
 
     # === Development Tools ===
     neovim
