@@ -50,6 +50,7 @@ alias cd="z"
 alias e="exit"
 alias ci="cargo init"
 alias cr="cargo run"
+alias k="kubectl"
 alias fzf-preview='fzf --preview "if [ -d {} ]; then echo \"📁 Directory: {}\"; echo; eza -1 --color=always --icons {}; elif [ -f {} ]; then echo \"📄 File: {}\"; echo; bat -n --color=always --line-range :500 {}; else echo \"Path: {}\"; fi"'
 
 # -------------------------------------
@@ -362,6 +363,23 @@ source <(jj util completion zsh)
 # Mise activation
 # -----------------------------------
 eval "$(mise activate zsh)"
+
+# -----------------------------------
+# Flutter
+# -----------------------------------
+export PATH="$PATH:/opt/homebrew/bin/flutter/bin"
+
+
+# -----------------------------------
+# Configure Android SDK
+# -----------------------------------
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
