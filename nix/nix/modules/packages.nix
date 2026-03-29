@@ -7,6 +7,7 @@
     gnupg
 
     # === Terminal & Shell ===
+    sapling
     television
     gawk
     tmux
@@ -74,6 +75,7 @@
     # Others
     shellcheck
     terraform
+    cocoapods
 
     # === Database Tools ===
     (postgresql.withPackages (ps: [ps.pg_cron]))
