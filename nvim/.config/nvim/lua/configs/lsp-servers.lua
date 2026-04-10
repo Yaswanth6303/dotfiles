@@ -52,3 +52,13 @@ vim.lsp.config.lua_ls = {
     },
   },
 }
+
+-- Typst
+vim.lsp.config.tinymist = {
+  on_attach = disable_formatting,
+  settings = {
+    formatterMode = "disable", -- conform handles formatting
+    exportPdf = "onSave", -- auto-export PDF on save
+    semanticTokens = "enable",
+  },
+}

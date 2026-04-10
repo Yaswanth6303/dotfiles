@@ -34,6 +34,7 @@ return {
       "sqls",
       "dockerls",
       "docker_compose_language_service",
+      "tinymist",
     },
     automatic_installation = true,
   },
@@ -52,5 +53,6 @@ return {
     "alejandra",
     "buildifier",
     "sql-formatter",
+    "typstyle",
   },
 }

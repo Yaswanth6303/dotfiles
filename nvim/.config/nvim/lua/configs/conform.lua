@@ -42,6 +42,7 @@ local options = {
     javascriptreact = { "eslint_d", "prettier" },
     typescriptreact = { "eslint_d", "prettier" },
     dart = { "dart_format" },
+    typst = { "typstyle" },
   },
 
   format_on_save = {

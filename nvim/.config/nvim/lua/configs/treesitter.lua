@@ -38,5 +38,7 @@ return {
     "nix",
     -- Dart / Flutter
     "dart",
+    -- Typst
+    "typst",
   },
 }

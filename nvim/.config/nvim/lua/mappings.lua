@@ -53,3 +53,28 @@ map("n", "<leader>Fl", "<cmd>FlutterLogClear<cr>", { desc = "Flutter: Clear log"
 map("n", "<leader>St", "<cmd>DBUIToggle<cr>", { desc = "SQL: Toggle DBUI sidebar" })
 map("n", "<leader>Sq", "<cmd>DBUIFindBuffer<cr>", { desc = "SQL: Find query buffer" })
 map("n", "<leader>Sa", "<cmd>DBUIAddConnection<cr>", { desc = "SQL: Add connection" })
+
+-- Typst
+map("n", "<leader>Tp", "<cmd>TypstPreviewToggle<cr>", { desc = "Typst: Toggle live preview" })
+map("n", "<leader>Tw", function()
+  -- Compile and show word count
+  local file = vim.fn.expand "%:p"
+  vim.fn.jobstart({ "typst", "compile", file }, {
+    on_exit = function(_, code)
+      if code == 0 then
+        vim.schedule(function()
+          vim.notify("Typst: Compiled → " .. file:gsub("%.typ$", ".pdf"), vim.log.levels.INFO)
+        end)
+      else
+        vim.schedule(function()
+          vim.notify("Typst: Compilation failed", vim.log.levels.ERROR)
+        end)
+      end
+    end,
+  })
+end, { desc = "Typst: Compile to PDF" })
+map("n", "<leader>Ts", "<cmd>TypstPreviewSyncCursor<cr>", { desc = "Typst: Sync cursor to preview" })
+map("n", "<leader>Tf", function()
+  -- Quick follow mode toggle
+  require("typst-preview").set_follow_cursor(not require("typst-preview").get_follow_cursor())
+end, { desc = "Typst: Toggle follow cursor" })

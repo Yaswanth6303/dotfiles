@@ -12,4 +12,5 @@ return {
   { import = "plugins.image" },
   { import = "plugins.dadbod" },
   { import = "plugins.flutter" },
+  { import = "plugins.typst" },
 }
