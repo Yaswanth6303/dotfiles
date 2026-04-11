@@ -340,12 +340,6 @@ export PATH="/usr/local/mysql/bin:$PATH"# Added by Antigravity
 export PATH="/Users/yaswanthgudivada/.antigravity/antigravity/bin:$PATH"
 
 # -----------------------------------
-# Anthropic
-# -----------------------------------
-export ANTHROPIC_BASE_URL="http://localhost:8080"
-export ANTHROPIC_AUTH_TOKEN="test"
-
-# -----------------------------------
 # Docker
 # -----------------------------------
 export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
