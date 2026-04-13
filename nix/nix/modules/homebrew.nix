@@ -4,6 +4,7 @@
     enable = true;
 
     brews = [
+      "typst"
       "kubectx"
       "worktrunk"
       "mas"
