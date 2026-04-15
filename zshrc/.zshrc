@@ -329,11 +329,6 @@ export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 
 # -----------------------------------
-# Deno
-# -----------------------------------
-. "/Users/yaswanthgudivada/.deno/env"
-
-# -----------------------------------
 # MySQL
 # -----------------------------------
 export PATH="/usr/local/mysql/bin:$PATH"# Added by Antigravity
