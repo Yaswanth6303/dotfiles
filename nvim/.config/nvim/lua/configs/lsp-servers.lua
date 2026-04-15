@@ -7,12 +7,49 @@ local function disable_formatting(client)
 end
 
 -- Web
-vim.lsp.config.ts_ls = { on_attach = disable_formatting }
+vim.lsp.config.ts_ls = {
+  on_attach = disable_formatting,
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+      },
+      suggest = {
+        autoImports = true,
+        completeFunctionCalls = true,
+      },
+    },
+    javascript = {
+      suggest = {
+        autoImports = true,
+        completeFunctionCalls = true,
+      },
+    },
+    completions = {
+      completeFunctionCalls = true,
+    },
+  },
+}
 vim.lsp.config.eslint = { on_attach = disable_formatting }
 vim.lsp.config.html = { on_attach = disable_formatting }
 vim.lsp.config.jsonls = { on_attach = disable_formatting }
 vim.lsp.config.cssls = { on_attach = disable_formatting }
 vim.lsp.config.tailwindcss = { on_attach = disable_formatting }
+
+-- Emmet (JSX/TSX support)
+vim.lsp.config.emmet_ls = {
+  on_attach = disable_formatting,
+  filetypes = {
+    "html",
+    "css",
+    "scss",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "svelte",
+  },
+}
 
 -- C/C++
 vim.lsp.config.clangd = { on_attach = disable_formatting }
