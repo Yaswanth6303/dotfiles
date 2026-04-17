@@ -39,6 +39,7 @@
     };
 
     casks = [
+      "mactex-no-gui"
       "hammerspoon"
       "popclip"
       "reminders-menubar"
