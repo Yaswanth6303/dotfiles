@@ -123,6 +123,11 @@ eval "$(zoxide init zsh)"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # -------------------------------------
+# ⚡ Zed
+# -------------------------------------
+export PATH="$PATH:/Applications/Zed.app/Contents/MacOS"
+
+# -------------------------------------
 # 🐍 Python
 # -------------------------------------
 export PATH="/usr/local/bin:$PATH"
