@@ -5,7 +5,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    # Pinned to last pre-regression commit; bug: zhaofengli/nix-homebrew#131
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-homebrew.inputs.brew-src.follows = "homebrew-brew";
+    homebrew-brew = {
+      url = "github:Homebrew/brew/5.1.10";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -13,6 +19,7 @@
     nix-darwin,
     nixpkgs,
     nix-homebrew,
+    ...
   }: {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#m4air

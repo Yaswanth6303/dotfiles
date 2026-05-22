@@ -64,7 +64,7 @@
     zig
     zls
     # Ruby
-    ruby
+    # ruby
     rbenv
     # Lua
     lua
@@ -74,7 +74,7 @@
     bazelisk
     # Others
     shellcheck
-    terraform
+    # terraform
     cocoapods
 
     # === Database Tools ===
@@ -91,7 +91,7 @@
     podman-tui
     lazydocker
     opentofu
-    vault
+    # vault
 
     # === Web Servers ===
     angie # Angie web server - NGINX-compatible fork
@@ -105,13 +105,13 @@
 
     # === Media & Productivity ===
     imagemagick
-    jellyfin-ffmpeg
+    # jellyfin-ffmpeg
     openjpeg
     pympress
     cowsay
     duf
     mailsy
-    notesnook
+    # notesnook
     monitorcontrol
     tuckr
 

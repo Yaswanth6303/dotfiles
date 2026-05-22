@@ -27,6 +27,7 @@
       "mole"
       "luarocks"
       "adibhanna/tsm/tsm"
+      "mysql"
     ];
 
     taps = [
@@ -51,5 +52,8 @@
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
+    onActivation.extraEnv = {
+      HOMEBREW_BUNDLE_MAS_SKIP = "1352778147";
+    };
   };
 }
