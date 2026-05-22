@@ -20,6 +20,10 @@ return {
       closing_tags = { enabled = true },
       lsp = {
         color = { enabled = true, virtual_text = true },
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
         settings = {
           showTodos = true,
           completeFunctionCalls = true,

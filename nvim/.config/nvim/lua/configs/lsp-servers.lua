@@ -90,6 +90,25 @@ vim.lsp.config.lua_ls = {
   },
 }
 
+-- Kotlin
+vim.lsp.config.kotlin_language_server = {
+  on_attach = disable_formatting,
+  settings = {
+    kotlin = {
+      compiler = {
+        jvm = { target = "17" },
+      },
+      completion = { snippets = { enabled = true } },
+      inlayHints = {
+        typeHints = true,
+        parameterHints = true,
+        chainingHints = true,
+      },
+      linting = { debounceTime = 500 },
+    },
+  },
+}
+
 -- Typst
 vim.lsp.config.tinymist = {
   on_attach = disable_formatting,

@@ -35,6 +35,7 @@ return {
       "dockerls",
       "docker_compose_language_service",
       "tinymist",
+      "kotlin_language_server",
     },
     automatic_installation = true,
   },
@@ -54,5 +55,6 @@ return {
     "buildifier",
     "sql-formatter",
     "typstyle",
+    "ktfmt",
   },
 }
