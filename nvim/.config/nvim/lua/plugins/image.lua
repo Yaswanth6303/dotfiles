@@ -2,7 +2,6 @@ return {
   {
     "3rd/image.nvim",
     ft = { "markdown", "norg", "oil" },
-    event = "BufReadPre *.png,*.jpg,*.jpeg,*.gif,*.webp",
     opts = {
       backend = "kitty",
       processor = "magick_cli",

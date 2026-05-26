@@ -1,5 +1,65 @@
 local dap = require "dap"
 
+-- Visual breakpoint signs (replaces default 'B' text with proper icons)
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError", linehl = "", numhl = "" })
+vim.fn.sign_define(
+  "DapBreakpointCondition",
+  { text = "◆", texthl = "DiagnosticWarn", linehl = "", numhl = "" }
+)
+vim.fn.sign_define("DapLogPoint", { text = "◉", texthl = "DiagnosticInfo", linehl = "", numhl = "" })
+vim.fn.sign_define(
+  "DapStopped",
+  { text = "▶", texthl = "DiagnosticOk", linehl = "Visual", numhl = "DiagnosticOk" }
+)
+vim.fn.sign_define(
+  "DapBreakpointRejected",
+  { text = "✗", texthl = "DiagnosticError", linehl = "", numhl = "" }
+)
+
+-- Go (delve adapter auto-configured by mason-nvim-dap)
+dap.configurations.go = {
+  { type = "delve", name = "Debug file", request = "launch", program = "${file}" },
+  { type = "delve", name = "Debug package", request = "launch", program = "${workspaceFolder}" },
+  { type = "delve", name = "Debug test", request = "launch", mode = "test", program = "${file}" },
+}
+
+-- Python (debugpy adapter auto-configured by mason-nvim-dap)
+dap.configurations.python = {
+  {
+    type = "python",
+    request = "launch",
+    name = "Launch file",
+    program = "${file}",
+    pythonPath = function()
+      return os.getenv "VIRTUAL_ENV" and (os.getenv "VIRTUAL_ENV" .. "/bin/python")
+        or os.getenv "CONDA_PREFIX" and (os.getenv "CONDA_PREFIX" .. "/bin/python")
+        or vim.fn.exepath "python3"
+        or "python"
+    end,
+  },
+}
+
+-- JavaScript / TypeScript (js-debug-adapter auto-configured by mason-nvim-dap)
+local js_config = {
+  {
+    type = "pwa-node",
+    request = "launch",
+    name = "Launch file",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
+  },
+  {
+    type = "pwa-node",
+    request = "attach",
+    name = "Attach to process",
+    processId = require("dap.utils").pick_process,
+    cwd = "${workspaceFolder}",
+  },
+}
+for _, lang in ipairs { "javascript", "typescript", "javascriptreact", "typescriptreact" } do
+  dap.configurations[lang] = js_config
+end
+
 -- C/C++ configuration (codelldb adapter is auto-configured by mason-nvim-dap)
 dap.configurations.c = {
   {

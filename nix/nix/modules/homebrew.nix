@@ -4,10 +4,10 @@
     enable = true;
 
     brews = [
+      "poppler"
       "typst"
       "kubectx"
       "worktrunk"
-      "mas"
       "zsh-autosuggestions"
       "zsh-syntax-highlighting"
       "git-delta"
@@ -23,7 +23,6 @@
       "jj"
       "lazyjj"
       "mycli"
-      "sinelaw/fresh/fresh-editor"
       "mole"
       "luarocks"
       "adibhanna/tsm/tsm"
@@ -35,10 +34,6 @@
       "adibhanna/tsm"
     ];
 
-    masApps = {
-      "Bitwarden" = 1352778147;
-    };
-
     casks = [
       "mactex-no-gui"
       "hammerspoon"
@@ -47,13 +42,11 @@
       "only-switch"
       "browserosaurus"
       "flutter"
+      "bitwarden"
     ];
 
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
-    onActivation.extraEnv = {
-      HOMEBREW_BUNDLE_MAS_SKIP = "1352778147";
-    };
   };
 }

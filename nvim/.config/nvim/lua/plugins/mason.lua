@@ -7,7 +7,6 @@ return {
   {
     "williamboman/mason.nvim",
     lazy = false,
-    cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     opts = function()
       local cfg = get_mason_config()
       return {

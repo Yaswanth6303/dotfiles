@@ -1,7 +1,7 @@
 return {
   {
     "akinsho/flutter-tools.nvim",
-    lazy = false,
+    ft = "dart",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "stevearc/dressing.nvim",
@@ -19,10 +19,14 @@ return {
       widget_guides = { enabled = true },
       closing_tags = { enabled = true },
       lsp = {
-        color = { enabled = true, virtual_text = true },
+        -- `color = {...}` removed: deprecated in flutter-tools for Neovim 0.12+.
+        -- Document colors enabled below via the native vim.lsp.document_color API.
         on_attach = function(client, bufnr)
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
+          if vim.lsp.document_color and vim.lsp.document_color.enable then
+            pcall(vim.lsp.document_color.enable, true, bufnr)
+          end
         end,
         settings = {
           showTodos = true,

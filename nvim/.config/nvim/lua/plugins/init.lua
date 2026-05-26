@@ -13,4 +13,6 @@ return {
   { import = "plugins.dadbod" },
   { import = "plugins.flutter" },
   { import = "plugins.typst" },
+  { import = "plugins.tmux-navigator" },
+  { import = "plugins.editor" },
 }

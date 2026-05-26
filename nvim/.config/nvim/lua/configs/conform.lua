@@ -1,27 +1,12 @@
 local options = {
-  -- Formatter options (Java: 4-space indent only)
   formatters = {
     ["google-java-format"] = {
       prepend_args = { "--aosp" },
     },
-    eslint_d = {
-      condition = function(self, ctx)
-        return vim.fs.find({
-          ".eslintrc",
-          ".eslintrc.js",
-          ".eslintrc.json",
-          ".eslintrc.yml",
-          ".eslintrc.yaml",
-          ".eslintrc.cjs",
-          "eslint.config.js",
-          "eslint.config.mjs",
-          "eslint.config.cjs",
-        }, { path = ctx.dirname, upward = true })[1] ~= nil
-      end,
-    },
   },
 
   formatters_by_ft = {
+    -- Systems
     lua = { "stylua" },
     go = { "gofumpt", "goimports", "golines" },
     rust = { "rustfmt" },
@@ -31,25 +16,39 @@ local options = {
     java = { "google-java-format" },
     nix = { "alejandra" },
     bzl = { "buildifier" },
-    html = { "prettier" },
-    css = { "prettier" },
-    json = { "prettier" },
-    markdown = { "prettier" },
-    yaml = { "prettier" },
+
+    -- MERN stack — prettierd (daemon, fast) with prettier as fallback
+    -- ESLint fixes are applied separately by the ESLint LSP on BufWritePre
+    javascript = { "prettierd", "prettier", stop_after_first = true },
+    typescript = { "prettierd", "prettier", stop_after_first = true },
+    javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+    typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+    html = { "prettierd", "prettier", stop_after_first = true },
+    css = { "prettierd", "prettier", stop_after_first = true },
+    scss = { "prettierd", "prettier", stop_after_first = true },
+    less = { "prettierd", "prettier", stop_after_first = true },
+    json = { "prettierd", "prettier", stop_after_first = true },
+    jsonc = { "prettierd", "prettier", stop_after_first = true },
+    yaml = { "prettierd", "prettier", stop_after_first = true },
+    markdown = { "prettierd", "prettier", stop_after_first = true },
+    graphql = { "prettierd", "prettier", stop_after_first = true },
+
+    -- Other
     sql = { "sql_formatter" },
-    javascript = { "eslint_d", "prettier" },
-    typescript = { "eslint_d", "prettier" },
-    javascriptreact = { "eslint_d", "prettier" },
-    typescriptreact = { "eslint_d", "prettier" },
     dart = { "dart_format" },
     kotlin = { "ktfmt" },
     typst = { "typstyle" },
   },
 
-  format_on_save = {
-    timeout_ms = 1000,
-    lsp_format = "fallback",
-  },
+  -- Function form supports `:FormatToggle` (see autocmds.lua) to disable
+  -- format-on-save globally (`vim.g.disable_autoformat`) or per-buffer
+  -- (`vim.b.disable_autoformat`) — useful for legacy code with intentional style.
+  format_on_save = function(bufnr)
+    if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+      return
+    end
+    return { timeout_ms = 3000, lsp_format = "fallback" }
+  end,
 }
 
 return options

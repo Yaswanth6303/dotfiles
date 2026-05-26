@@ -1,5 +1,19 @@
 require("nvchad.configs.lspconfig").defaults()
 
+vim.diagnostic.config {
+  virtual_text = { prefix = "●", spacing = 4 },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = true,
+    header = "",
+    prefix = "",
+  },
+}
+
 -- Suppress "No signature help available" — only show when LSP returns signatures
 vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
   if result and result.signatures and #result.signatures > 0 then

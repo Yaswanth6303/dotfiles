@@ -5,10 +5,6 @@
 ---@type ChadrcConfig
 local M = {}
 
--- Always enable line numbers + relative numbers
-vim.opt.number = true
-vim.opt.relativenumber = true
-
 M.base46 = {
   theme = "catppuccin",
   transparency = true,

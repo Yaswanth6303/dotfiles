@@ -12,7 +12,7 @@ end, { desc = "LSP rename symbol" })
 
 -- Manual format with conform
 map("n", "<leader>fm", function()
-  require("conform").format { lsp_fallback = true }
+  require("conform").format { lsp_format = "fallback" }
 end, { desc = "Format file with conform" })
 
 -- Debugging
@@ -78,3 +78,17 @@ map("n", "<leader>Tf", function()
   -- Quick follow mode toggle
   require("typst-preview").set_follow_cursor(not require("typst-preview").get_follow_cursor())
 end, { desc = "Typst: Toggle follow cursor" })
+
+-- Register which-key group headers so pressing <leader> shows named sections
+local ok, wk = pcall(require, "which-key")
+if ok and wk.add then
+  wk.add {
+    { "<leader>F", group = "Flutter" },
+    { "<leader>S", group = "SQL / DBUI" },
+    { "<leader>T", group = "Typst" },
+    { "<leader>d", group = "Debug" },
+    { "<leader>m", group = "Markdown" },
+    { "<leader>s", group = "Split" },
+    { "<leader>t", group = "Tab" },
+  }
+end

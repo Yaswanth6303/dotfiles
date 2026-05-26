@@ -22,6 +22,9 @@ return {
     "stevearc/conform.nvim",
     dependencies = { "williamboman/mason.nvim" },
     event = "BufWritePre",
-    opts = require "configs.conform",
+    cmd = { "ConformInfo" },
+    opts = function()
+      return require "configs.conform"
+    end,
   },
 }

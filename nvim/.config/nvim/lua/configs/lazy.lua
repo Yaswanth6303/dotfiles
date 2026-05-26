@@ -1,6 +1,6 @@
 return {
   defaults = { lazy = true },
-  install = { 
+  install = {
     colorscheme = { "nvchad" },
     missing = true, -- Auto-install missing plugins
   },

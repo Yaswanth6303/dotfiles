@@ -2,6 +2,7 @@ return {
   -- Core DAP
   {
     "mfussenegger/nvim-dap",
+    cmd = { "DapToggleBreakpoint", "DapContinue", "DapNew", "DapStepOver", "DapStepInto", "DapStepOut" },
     config = function()
       require "configs.dap"
     end,
@@ -16,7 +17,7 @@ return {
       "mfussenegger/nvim-dap",
     },
     opts = {
-      ensure_installed = { "codelldb" },
+      ensure_installed = { "codelldb", "delve", "debugpy", "js-debug-adapter" },
       handlers = {},
     },
   },
