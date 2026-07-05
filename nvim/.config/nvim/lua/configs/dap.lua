@@ -2,19 +2,10 @@ local dap = require "dap"
 
 -- Visual breakpoint signs (replaces default 'B' text with proper icons)
 vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError", linehl = "", numhl = "" })
-vim.fn.sign_define(
-  "DapBreakpointCondition",
-  { text = "◆", texthl = "DiagnosticWarn", linehl = "", numhl = "" }
-)
+vim.fn.sign_define("DapBreakpointCondition", { text = "◆", texthl = "DiagnosticWarn", linehl = "", numhl = "" })
 vim.fn.sign_define("DapLogPoint", { text = "◉", texthl = "DiagnosticInfo", linehl = "", numhl = "" })
-vim.fn.sign_define(
-  "DapStopped",
-  { text = "▶", texthl = "DiagnosticOk", linehl = "Visual", numhl = "DiagnosticOk" }
-)
-vim.fn.sign_define(
-  "DapBreakpointRejected",
-  { text = "✗", texthl = "DiagnosticError", linehl = "", numhl = "" }
-)
+vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticOk", linehl = "Visual", numhl = "DiagnosticOk" })
+vim.fn.sign_define("DapBreakpointRejected", { text = "✗", texthl = "DiagnosticError", linehl = "", numhl = "" })
 
 -- Go (delve adapter auto-configured by mason-nvim-dap)
 dap.configurations.go = {

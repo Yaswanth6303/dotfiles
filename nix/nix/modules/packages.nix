@@ -2,11 +2,13 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     # === Core System Tools ===
-    mkalias
     fastfetch
     gnupg
 
     # === Terminal & Shell ===
+    devbox
+    ffmpeg
+    plantuml
     sapling
     television
     gawk
@@ -53,35 +55,33 @@
     python313Packages.faker
     pass
     emacs
-    mise # To control versions and environments
+    mise
 
     # === Programming Languages & Tools ===
     # Go
     go
     gopls
-    air # Live reload for go apps
+    air
     # Zig
     zig
     zls
     # Ruby
-    # ruby
+    ruby
     rbenv
     # Lua
     lua
     luajitPackages.luarocks_bootstrap
-    # Buildtools
-    bazel_8
+    # Build tools
     bazelisk
     # Others
     shellcheck
-    # terraform
     cocoapods
 
     # === Database Tools ===
     (postgresql.withPackages (ps: [ps.pg_cron]))
     pgcli
-    pgxnclient # PostgreSQL Extension Network client (from overlay)
-    usql # Universal SQL client
+    pgxnclient
+    usql
     mysql-shell-innovation
 
     # === Cloud & DevOps ===
@@ -91,10 +91,9 @@
     podman-tui
     lazydocker
     opentofu
-    # vault
 
     # === Web Servers ===
-    angie # Angie web server - NGINX-compatible fork
+    # angie
 
     # === Network & Security ===
     xh
@@ -105,13 +104,11 @@
 
     # === Media & Productivity ===
     imagemagick
-    # jellyfin-ffmpeg
     openjpeg
     pympress
     cowsay
     duf
     mailsy
-    # notesnook
     monitorcontrol
     tuckr
 

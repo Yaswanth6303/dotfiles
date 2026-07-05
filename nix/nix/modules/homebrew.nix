@@ -4,6 +4,9 @@
     enable = true;
 
     brews = [
+      "container"
+      "pyenv"
+      "herdr"
       "poppler"
       "typst"
       "kubectx"
@@ -35,6 +38,8 @@
     ];
 
     casks = [
+      "gcloud-cli"
+      "dockdoor"
       "mactex-no-gui"
       "hammerspoon"
       "popclip"
@@ -45,8 +50,10 @@
       "bitwarden"
     ];
 
-    onActivation.cleanup = "zap";
-    onActivation.autoUpdate = true;
-    onActivation.upgrade = true;
+    onActivation = {
+      cleanup = "zap";
+      autoUpdate = true;
+      upgrade = true;
+    };
   };
 }

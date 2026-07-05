@@ -379,9 +379,21 @@ export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 # MacTex
 # -----------------------------------
 export PATH="/Library/TeX/texbin:$PATH"
-
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+# -----------------------------------
+# Antigravity IDE launcher
+# -----------------------------------
+antigravity() {
+    open -a "Antigravity IDE" "$@"
+}
 
 # Added by Antigravity IDE
 export PATH="/Users/yaswanthgudivada/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+export PATH="/Library/Frameworks/R.framework/Resources/bin:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"

@@ -21,55 +21,61 @@ Welcome to my dotfiles repository! This is where I keep all my configuration fil
   - [Neovim](nvim/) - Modern Vim editor
 
 - 🎯 **Utilities**
+
   - [Bat](bat/) - Modern `cat` replacement
   - [Btop](btop/) - System resource monitor
   - [Yazi](yazi/) - Terminal file manager
   - [Zellij](zellij/) - Terminal workspace
 
+- 📦 **System provisioning**
+  - [Nix](nix/) - `nix-darwin` flake that installs every CLI tool, GUI app, brew, cask, and font on this machine. See [`nix/nix/README.md`](nix/nix/README.md) for the bootstrap.
+
 ## 🛠️ Installation
 
-1. Install GNU Stow:
+This repo has two layers:
 
-   ```bash
-   brew install stow
-   ```
+1. **Nix flake** (`nix/nix/`) — installs all software (CLI tools, brews, casks, fonts, GUI apps).
+2. **Stow** — symlinks the per-tool config directories (`zshrc/`, `nvim/`, `tmux/`, …) into `$HOME`.
 
-2. Clone this repository:
+Run them in that order.
 
-   ```bash
-   git clone https://github.com/Yaswanth6303/dotfiles.git
-   cd dotfiles
-   ```
+### Fresh Mac
 
-3. Use Stow to create symlinks (choose one method):
+```bash
+# 1. Xcode CLI tools (needed for git)
+xcode-select --install
 
-   **Method 1: Stow all configurations at once**
+# 2. Install Nix (Determinate)
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate
 
-   ```bash
-   stow .
-   ```
+# 3. Clone this repo
+git clone https://github.com/Yaswanth6303/dotfiles.git ~/dotfiles
 
-   **Method 2: Stow specific configurations**
+# 4. Bring up the system (installs stow, brew, every app)
+nix run nix-darwin/master#darwin-rebuild -- \
+  switch --flake ~/dotfiles/nix/nix#m4air
 
-   ```bash
-   stow zshrc
-   stow nvim
-   stow tmux
-   # ... and so on for other configurations
-   ```
+# 5. Symlink the per-tool configs
+cd ~/dotfiles && stow .
+```
 
-   To remove a stowed configuration:
+Detailed bootstrap, update, and rollback commands live in [`nix/nix/README.md`](nix/nix/README.md).
 
-   ```bash
-   stow -D zshrc  # Removes zshrc symlinks
-   ```
+### Stow tips
+
+```bash
+stow zshrc           # symlink just one package
+stow -D zshrc        # remove a stowed package
+stow -R zshrc        # re-stow (useful after editing)
+```
 
 ## 🔧 Prerequisites
 
-- macOS (tested on macOS 24.4.0)
-- Homebrew package manager
-- Git
-- GNU Stow
+- macOS on Apple Silicon (`aarch64-darwin`)
+- Xcode Command Line Tools
+- [Nix](https://nixos.org/download) (Determinate installer recommended)
+
+Stow and Homebrew are installed for you by the Nix flake — you do not need them in advance.
 
 ## 📚 Usage
 
