@@ -1,5 +1,6 @@
 # Kiro CLI pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+
 # -------------------------------------
 # 🚀 Instant Prompt for Powerlevel10k
 # -------------------------------------
@@ -379,6 +380,7 @@ export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 # MacTex
 # -----------------------------------
 export PATH="/Library/TeX/texbin:$PATH"
+
 # -----------------------------------
 # Antigravity IDE launcher
 # -----------------------------------
@@ -386,14 +388,31 @@ antigravity() {
     open -a "Antigravity IDE" "$@"
 }
 
+# -------------------------------------
 # Added by Antigravity IDE
+# -------------------------------------
 export PATH="/Users/yaswanthgudivada/.antigravity-ide/antigravity-ide/bin:$PATH"
-
-export PATH="/Library/Frameworks/R.framework/Resources/bin:$PATH"
-
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# -------------------------------------
+# OPAM
+# -------------------------------------
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/yaswanthgudivada/.opam/opam-init/init.zsh' ]] || source '/Users/yaswanthgudivada/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
+
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+
+# exc CLI completions
+fpath+=("$HOME/.zsh/completions")
+autoload -Uz compinit && compinit
+
+# nub
+export PATH="$HOME/.nub/bin:$PATH"

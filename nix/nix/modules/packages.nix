@@ -6,6 +6,7 @@
     gnupg
 
     # === Terminal & Shell ===
+    opam
     devbox
     ffmpeg
     plantuml
@@ -88,6 +89,7 @@
     awscli
     heroku
     podman
+    podman-compose
     podman-tui
     lazydocker
     opentofu

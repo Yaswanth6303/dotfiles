@@ -55,7 +55,7 @@ cursor-text = cell-background
 unfocused-split-opacity = 0.55
 split-divider-color = #524f67
 
-macos-titlebar-style = hidden
+macos-titlebar-style = transparent
 macos-option-as-alt = true
 mouse-hide-while-typing = true
 

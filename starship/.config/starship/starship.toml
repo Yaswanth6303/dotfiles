@@ -20,8 +20,9 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:teal bg:blue)\
+[](fg:teal bg:sapphire)\
 $docker_context\
+[](fg:sapphire bg:blue)\
 $conda\
 [](fg:blue bg:purple)\
 $time\
@@ -186,8 +187,8 @@ ignore_base = false
 
 [docker_context]
 symbol = ""
-style = "bg:mantle"
-format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+style = "bg:sapphire"
+format = '[[ $symbol( $context) ](fg:base bg:sapphire)]($style)'
 
 [time]
 disabled = false

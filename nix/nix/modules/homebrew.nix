@@ -4,6 +4,8 @@
     enable = true;
 
     brews = [
+      "colima"
+      "docker"
       "container"
       "pyenv"
       "herdr"
