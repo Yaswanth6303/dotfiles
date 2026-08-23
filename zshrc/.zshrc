@@ -52,7 +52,7 @@ alias e="exit"
 alias ci="cargo init"
 alias cr="cargo run"
 alias k="kubectl"
-alias fzf-preview='fzf --preview "if [ -d {} ]; then echo \"📁 Directory: {}\"; echo; eza -1 --color=always --icons {}; elif [ -f {} ]; then echo \"📄 File: {}\"; echo; bat -n --color=always --line-range :500 {}; else echo \"Path: {}\"; fi"'
+alias fzf-preview='fzf --preview "if [ -d {} ]; then echo \"📁 Directory: {}\"; echo; eza -1 --color=always --icons=always {}; elif [ -f {} ]; then echo \"📄 File: {}\"; echo; bat -n --color=always --line-range :500 {}; else echo \"Path: {}\"; fi"'
 
 # -------------------------------------
 # 🍺 Homebrew (managed by nix-darwin)
@@ -155,7 +155,7 @@ _fzf_comprun() {
     local command=$1
     shift
     case "$command" in
-        cd|z|__zoxide_z) fzf --preview 'if [ -d {} ]; then eza -1 --color=always --icons {}; elif [ -f {} ]; then bat -n --color=always --line-range :500 {}; else echo "Path: {}"; fi' "$@" ;;
+        cd|z|__zoxide_z) fzf --preview 'if [ -d {} ]; then eza -1 --color=always --icons=always {}; elif [ -f {} ]; then bat -n --color=always --line-range :500 {}; else echo "Path: {}"; fi' "$@" ;;
         export|unset) fzf --preview "eval 'echo ${}'" "$@" ;;
         ssh) fzf --preview 'dig {}' "$@" ;;
         *) fzf --preview "$show_file_or_dir_preview" "$@" ;;
@@ -174,9 +174,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Disable menu selection for better fzf integration
 zstyle ':completion:*' menu no
 # Preview directory's content with eza when completing cd and z (zoxide)
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons=always $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons=always $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'if [ -d $realpath ]; then eza -1 --color=always --icons=always $realpath; elif [ -f $realpath ]; then bat -n --color=always --line-range :500 $realpath; else echo "Path: $realpath"; fi'
 # Switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
@@ -258,11 +258,6 @@ source <(carapace _carapace)
 # export LS_COLORS="$(vivid generate catppuccin-mocha)"
 
 # ------------------------------------
-# Ruby 
-# ------------------------------------
-eval "$(rbenv init -)" 
-
-# ------------------------------------
 # Selenium
 # ------------------------------------
 export CLASSPATH="/usr/local/lib/java/*:$CLASSPATH"
@@ -334,10 +329,7 @@ export PATH=/Users/yaswanthgudivada/.opencode/bin:$PATH
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 
-# -----------------------------------
-# MySQL
-# -----------------------------------
-export PATH="/usr/local/mysql/bin:$PATH"# Added by Antigravity
+# Added by Antigravity
 export PATH="/Users/yaswanthgudivada/.antigravity/antigravity/bin:$PATH"
 
 # -----------------------------------
@@ -407,12 +399,16 @@ eval "$(pyenv init -)"
 [[ ! -r '/Users/yaswanthgudivada/.opam/opam-init/init.zsh' ]] || source '/Users/yaswanthgudivada/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # END opam configuration
 
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
-
-# exc CLI completions
+# -------------------------------------------------
+# Excloud
+# -------------------------------------------------
 fpath+=("$HOME/.zsh/completions")
 autoload -Uz compinit && compinit
 
+# -------------------------------------------------
 # nub
+# -------------------------------------------------
 export PATH="$HOME/.nub/bin:$PATH"
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"

@@ -6,6 +6,8 @@
     gnupg
 
     # === Terminal & Shell ===
+    kind
+    kubectl
     opam
     devbox
     ffmpeg
@@ -66,9 +68,6 @@
     # Zig
     zig
     zls
-    # Ruby
-    ruby
-    rbenv
     # Lua
     lua
     luajitPackages.luarocks_bootstrap
@@ -79,9 +78,7 @@
     cocoapods
 
     # === Database Tools ===
-    (postgresql.withPackages (ps: [ps.pg_cron]))
     pgcli
-    pgxnclient
     usql
     mysql-shell-innovation
 

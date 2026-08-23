@@ -88,12 +88,12 @@ sudo darwin-rebuild switch --flake .#m4air   # activate
 
 ## Recovery cheatsheet
 
-| Need | Command |
-|---|---|
-| Roll back to previous generation | `sudo darwin-rebuild --rollback` |
-| List generations | `sudo darwin-rebuild --list-generations` |
-| Free disk now (weekly GC also runs) | `nix-collect-garbage -d` |
-| Format `.nix` files | `nix fmt` |
-| Add / rename a host | `flake.nix` → add another `mkDarwin "<name>"` |
-| Change machine identity | edit `networking.hostName` in `flake.nix` (everything else follows) |
+| Need                                    | Command                                                                                                                               |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Roll back to previous generation        | `sudo darwin-rebuild --rollback`                                                                                                      |
+| List generations                        | `sudo darwin-rebuild --list-generations`                                                                                              |
+| Free disk now (weekly GC also runs)     | `nix-collect-garbage -d`                                                                                                              |
+| Format `.nix` files                     | `nix fmt`                                                                                                                             |
+| Add / rename a host                     | `flake.nix` → add another `mkDarwin "<name>"`                                                                                         |
+| Change machine identity                 | edit `networking.hostName` in `flake.nix` (everything else follows)                                                                   |
 | Lift a manual `defaults write` into nix | `defaults read <domain> <key>`, then add under matching block in `modules/macos-defaults.nix` (or `CustomUserPreferences` if untyped) |
