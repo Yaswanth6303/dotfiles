@@ -35,8 +35,10 @@ in {
     enable = true;
 
     brews = [
+      "gcc"
+      "just"
+      "pandoc"
       "octave"
-      "colima"
       "docker"
       "docker-buildx"
       "container"
@@ -62,6 +64,10 @@ in {
       "luarocks"
       "adibhanna/tsm/tsm"
       "helm"
+      "derailed/k9s/k9s"
+      "jenkins-lts"
+      "cmake"
+      "ninja"
     ];
 
     taps = [
@@ -79,6 +85,8 @@ in {
       "browserosaurus"
       "flutter"
       "neohtop"
+      "keyguard"
+      "dotnet-sdk"
     ];
 
     onActivation = {

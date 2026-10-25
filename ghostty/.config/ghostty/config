@@ -30,7 +30,7 @@
 # palette = 14=#24EAF7
 # palette = 15=#24EAF7
 
-theme = "Catppuccin Mocha" 
+theme = "Catppuccin Mocha"
 # font-size = 19
 # mouse-hide-while-typing = true
 # window-decoration = true

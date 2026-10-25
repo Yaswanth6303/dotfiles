@@ -277,7 +277,7 @@ export PATH="$HOME/go/bin:$PATH"
 # ------------------------------------
 alias bun-setup="bun ~/.bun/setup-project.js"
 alias bun-setup-js="bun ~/.bun/setup-project-js.js"
-alias vite-setup="bun ~/.bun/vite-shadcn-bun.js"
+alias next-setup="bun ~/.bun/setup-next.js"
 
 # -----------------------------------
 # Enable vim mode
@@ -410,5 +410,28 @@ autoload -Uz compinit && compinit
 # -------------------------------------------------
 export PATH="$HOME/.nub/bin:$PATH"
 
+# -------------------------------------------------
+# Angular
+# -------------------------------------------------
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+# -------------------------------------------------
+# Dotnet
+# -------------------------------------------------
+export PATH="$PATH:/Users/yaswanthgudivada/.dotnet/tools"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/yaswanthgudivada/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# Vite+ bin (https://viteplus.dev)
+. "/Users/yaswanthgudivada/.config/vite-plus/env"
+
+
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/yaswanthgudivada/.local/bin:$PATH"

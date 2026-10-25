@@ -1,43 +1,54 @@
-# 🚀 My Dotfiles
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/header/graph.svg?title=dotfiles&subtitle=Declarative+macOS+setup+with+nix-darwin+and+GNU+Stow&logo=nixos&mode=dark" />
+    <img alt="dotfiles" src="https://shieldcn.dev/header/graph.svg?title=dotfiles&subtitle=Declarative+macOS+setup+with+nix-darwin+and+GNU+Stow&logo=nixos&mode=light" />
+  </picture>
+</p>
 
-Welcome to my dotfiles repository! This is where I keep all my configuration files and settings for various tools and applications I use on my macOS system.
+<p align="center">
+  <a href="https://github.com/nix-darwin/nix-darwin"><img alt="nix-darwin" src="https://shieldcn.dev/badge/nix--darwin-flake-5277C3.svg?logo=nixos&variant=secondary" /></a>
+  <a href="https://www.apple.com/macos/"><img alt="macOS Apple Silicon" src="https://shieldcn.dev/badge/macOS-Apple_Silicon-000000.svg?logo=apple&variant=secondary" /></a>
+  <a href="https://nvchad.com"><img alt="Neovim NvChad" src="https://shieldcn.dev/badge/Neovim-NvChad-57A143.svg?logo=neovim&variant=secondary" /></a>
+  <a href="https://github.com/Yaswanth6303/dotfiles/commits/main"><img alt="Last commit" src="https://shieldcn.dev/github/last-commit/Yaswanth6303/dotfiles.svg?variant=secondary" /></a>
+  <a href="https://github.com/Yaswanth6303/dotfiles/stargazers"><img alt="GitHub stars" src="https://shieldcn.dev/github/stars/Yaswanth6303/dotfiles.svg?variant=secondary" /></a>
+</p>
+
+My macOS setup in one repo. A Nix flake installs every tool, app and font, and GNU Stow links each tool's config into `$HOME`.
 
 ## 📦 What's Included
 
-- 🖥️ **Terminal & Shell**
+| Area | Tools |
+|---|---|
+| 🖥️ **Terminal & shell** | [Zsh](zshrc/) · [Starship](starship/) prompt · [Tmux](tmux/) · [Zellij](zellij/) · [WezTerm](wezterm/) · [Ghostty](ghostty/) |
+| 📝 **Editors** | [Neovim](nvim/) (NvChad, lazy.nvim, Mason LSPs, DAP, Treesitter) · [Vim](vimrc/) |
+| 🎨 **Window management** | [Yabai](yabai/) tiling WM · [Skhd](skhd/) hotkeys · [Hammerspoon](hammerspoon/) (AClock, CountDown spoons) |
+| 🎯 **Utilities** | [Bat](bat/) · [Btop](btop/) · [Yazi](yazi/) file manager |
+| 📦 **System provisioning** | [Nix](nix/nix/): a `nix-darwin` flake with `nix-homebrew` |
 
-  - [Zsh](zshrc/) - Shell configuration
-  - [Tmux](tmux/) - Terminal multiplexer
-  - [WezTerm](wezterm/) - Modern terminal emulator
-  - [Ghostty](ghostty/) - Fast terminal emulator
+### What the Nix flake manages
 
-- 🎨 **Window Management**
+- **~95 CLI packages** from nixpkgs: shell tools, languages (Go, Zig, Lua), language servers, Kubernetes, cloud and database CLIs
+- **Homebrew**, pinned through `nix-homebrew`, with ~30 brews and ~12 casks declared in [`homebrew.nix`](nix/nix/modules/homebrew.nix)
+- **macOS defaults**: Dock, Finder, trackpad and dark mode in [`macos-defaults.nix`](nix/nix/modules/macos-defaults.nix)
+- **Fonts**: JetBrains Mono Nerd Font
 
-  - [Yabai](yabai/) - Tiling window manager
-  - [Skhd](skhd/) - Hotkey daemon
-
-- 📝 **Text Editors**
-
-  - [Neovim](nvim/) - Modern Vim editor
-
-- 🎯 **Utilities**
-
-  - [Bat](bat/) - Modern `cat` replacement
-  - [Btop](btop/) - System resource monitor
-  - [Yazi](yazi/) - Terminal file manager
-  - [Zellij](zellij/) - Terminal workspace
-
-- 📦 **System provisioning**
-  - [Nix](nix/) - `nix-darwin` flake that installs every CLI tool, GUI app, brew, cask, and font on this machine. See [`nix/nix/README.md`](nix/nix/README.md) for the bootstrap.
+```
+nix/nix/
+├── flake.nix              # inputs + the m4air host
+└── modules/
+    ├── configuration.nix  # core system settings, fonts
+    ├── packages.nix       # CLI packages from nixpkgs
+    ├── homebrew.nix       # brews, casks, taps
+    ├── macos-defaults.nix # System Settings, declaratively
+    └── networking.nix
+```
 
 ## 🛠️ Installation
 
-This repo has two layers:
+This repo has two layers. Run them in this order:
 
-1. **Nix flake** (`nix/nix/`) — installs all software (CLI tools, brews, casks, fonts, GUI apps).
-2. **Stow** — symlinks the per-tool config directories (`zshrc/`, `nvim/`, `tmux/`, …) into `$HOME`.
-
-Run them in that order.
+1. **Nix flake** (`nix/nix/`) installs all software.
+2. **Stow** symlinks the per-tool config folders (`zshrc/`, `nvim/`, `tmux/`, …) into `$HOME`.
 
 ### Fresh Mac
 
@@ -59,15 +70,27 @@ nix run nix-darwin/master#darwin-rebuild -- \
 cd ~/dotfiles && stow .
 ```
 
-Detailed bootstrap, update, and rollback commands live in [`nix/nix/README.md`](nix/nix/README.md).
+Detailed bootstrap, update and rollback commands live in [`nix/nix/README.md`](nix/nix/README.md).
+
+### Day-to-day
+
+```bash
+# Apply changes after editing a .nix file
+sudo darwin-rebuild switch --flake ~/dotfiles/nix/nix#m4air
+
+# Update nixpkgs + nix-darwin together
+nix flake update --flake ~/dotfiles/nix/nix
+```
 
 ### Stow tips
 
 ```bash
-stow zshrc           # symlink just one package
-stow -D zshrc        # remove a stowed package
-stow -R zshrc        # re-stow (useful after editing)
+stow zshrc      # symlink just one package
+stow -D zshrc   # remove a stowed package
+stow -R zshrc   # re-stow (useful after editing)
 ```
+
+`.stowrc` targets `$HOME` and skips `.DS_Store`, `.git`, `.gitignore` and `README.md`.
 
 ## 🔧 Prerequisites
 
@@ -75,15 +98,11 @@ stow -R zshrc        # re-stow (useful after editing)
 - Xcode Command Line Tools
 - [Nix](https://nixos.org/download) (Determinate installer recommended)
 
-Stow and Homebrew are installed for you by the Nix flake — you do not need them in advance.
-
-## 📚 Usage
-
-Each directory contains specific configurations for different tools. Navigate to the respective directories to find detailed setup instructions.
+The Nix flake installs Stow and Homebrew for you, so you don't need them in advance.
 
 ## 🤝 Contributing
 
-Feel free to fork this repository and customize it to your needs. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+Feel free to fork this repository and make it your own. If you find an issue or have an idea, open an issue or a pull request.
 
 ## 📝 License
 
@@ -91,9 +110,9 @@ This project is open source and available under the MIT License.
 
 ## 🙏 Acknowledgments
 
-- Inspired by various dotfiles repositories in the community
-- Special thanks to all the tool creators and maintainers
+- Inspired by many dotfiles repositories in the community
+- Thanks to all the tool creators and maintainers
 
 ---
 
-Made with ❤️ by Yaswanth Gudivada
+<p align="center">Made with ❤️ by Yaswanth Gudivada</p>

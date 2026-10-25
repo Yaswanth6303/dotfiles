@@ -1,11 +1,25 @@
 # nix/modules/packages.nix
-{pkgs, ...}: {
+{pkgs, ...}: let
+  # Google's official launcher, exposed under the name `bazel`.
+  # A symlink rather than an overrideAttrs so bazelisk still comes prebuilt
+  # from the binary cache; it then fetches the genuine upstream Bazel release
+  # each project pins in its .bazelversion.
+  bazel-via-bazelisk =
+    pkgs.runCommand "bazel-via-bazelisk" {
+      meta.mainProgram = "bazel";
+    } ''
+      mkdir -p "$out/bin"
+      ln -s ${pkgs.bazelisk}/bin/bazelisk "$out/bin/bazel"
+    '';
+in {
   environment.systemPackages = with pkgs; [
     # === Core System Tools ===
     fastfetch
     gnupg
 
     # === Terminal & Shell ===
+    tuios
+    aria2
     kind
     kubectl
     opam
@@ -57,7 +71,6 @@
     httpie
     python313Packages.faker
     pass
-    emacs
     mise
 
     # === Programming Languages & Tools ===
@@ -71,11 +84,21 @@
     # Lua
     lua
     luajitPackages.luarocks_bootstrap
-    # Build tools
-    bazelisk
+    # Python
+    ruff
+    basedpyright
+    # Web (TypeScript, Svelte, HTML/CSS/JSON, YAML)
+    vtsls
+    svelte-language-server
+    vscode-langservers-extracted
+    yaml-language-server
     # Others
     shellcheck
     cocoapods
+
+    # === Build Systems ===
+    bazelisk
+    bazel-via-bazelisk
 
     # === Database Tools ===
     pgcli

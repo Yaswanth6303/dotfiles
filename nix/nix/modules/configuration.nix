@@ -12,7 +12,6 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = import ../overlays;
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   system.primaryUser = "yaswanthgudivada";
