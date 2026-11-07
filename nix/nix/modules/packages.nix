@@ -18,6 +18,7 @@ in {
     gnupg
 
     # === Terminal & Shell ===
+    terminaltexteffects
     tuios
     aria2
     kind
