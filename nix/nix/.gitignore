@@ -19,3 +19,5 @@ result-*
 
 # Log files
 *.log
+# Claude Code / claude-flow local state
+.claude-flow/

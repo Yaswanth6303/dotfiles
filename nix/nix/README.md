@@ -14,16 +14,19 @@ nix/nix/
 │   ├── homebrew.nix       # brews/casks/taps managed via nix-homebrew
 │   ├── macos-defaults.nix # declarative dock/finder/trackpad/etc. settings
 │   └── networking.nix     # hostname → computerName / NetBIOS / Bonjour
-└── overlays/
-    └── pgxnclient.nix     # local package, not in nixpkgs
+└── README.md
 ```
 
 ## 1. Prerequisites
 
 ```sh
 xcode-select --install
-curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
 ```
+
+Use the official installer, not Determinate: this config lets nix-darwin manage
+Nix (`nix.settings`, `nix.gc`, `nix.optimise`), and nix-darwin aborts activation
+if Determinate Nix is present.
 
 Open a new shell so `nix` is on `PATH`.
 
@@ -38,7 +41,6 @@ git clone https://github.com/Yaswanth6303/dotfiles.git ~/dotfiles
 `darwin-rebuild` is not installed yet — bootstrap it via `nix run`:
 
 ```sh
-mkdir -p ~/Pictures/Screenshots   # path declared in macos-defaults.nix
 nix run nix-darwin/master#darwin-rebuild -- \
   switch --flake ~/dotfiles/nix/nix#m4air
 ```

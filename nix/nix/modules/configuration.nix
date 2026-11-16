@@ -1,9 +1,5 @@
 # nix/modules/configuration.nix
-{
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./packages.nix
     ./homebrew.nix
@@ -18,7 +14,9 @@
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
-    trusted-users = ["root" "@admin" "yaswanthgudivada"];
+    # Only root is trusted (trusted = root-equivalent). Admins still use nix
+    # normally; system changes go through `sudo darwin-rebuild`.
+    trusted-users = ["root"];
     auto-optimise-store = true;
     warn-dirty = false;
   };
@@ -48,26 +46,8 @@
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
-  # Copy GUI apps from the Nix store into /Applications/Nix Apps so Spotlight finds them.
-  # Required workaround: nix-darwin only symlinks, which Finder/Spotlight don't follow.
-  system.activationScripts.applications.text = let
-    env = pkgs.buildEnv {
-      name = "system-applications";
-      paths = config.environment.systemPackages;
-      pathsToLink = ["/Applications"];
-    };
-  in
-    pkgs.lib.mkForce ''
-      echo "setting up /Applications..." >&2
-      rm -rf /Applications/Nix\ Apps
-      mkdir -p /Applications/Nix\ Apps
-      find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-      while read -r src; do
-        app_name=$(basename "$src")
-        echo "copying $src" >&2
-        ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-      done
-    '';
+  # GUI apps: nix-darwin itself copies them into /Applications/Nix Apps
+  # (Spotlight-visible), so no custom activation script is needed.
 
   programs.zsh.enable = true;
 

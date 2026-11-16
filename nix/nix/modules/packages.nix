@@ -33,7 +33,6 @@ in {
     tmux
     fish
     nushell
-    zsh
     eza
     yazi
     bat
@@ -56,6 +55,8 @@ in {
     starship
     lima
     fx
+    asciinema
+    ascii-image-converter
     zellij
     qtpass
     zbar
@@ -65,6 +66,9 @@ in {
     drawio
     helix
     lazygit
+    lazyjj
+    delta
+    just
     gitleaks
     gh
     stow
@@ -100,6 +104,8 @@ in {
     # === Build Systems ===
     bazelisk
     bazel-via-bazelisk
+    cmake
+    ninja
 
     # === Database Tools ===
     pgcli
@@ -107,13 +113,13 @@ in {
     mysql-shell-innovation
 
     # === Cloud & DevOps ===
-    awscli
+    awscli2
     heroku
-    podman
-    podman-compose
-    podman-tui
     lazydocker
     opentofu
+    kubernetes-helm
+    k9s
+    kubectx
 
     # === Web Servers ===
     # angie
@@ -128,6 +134,9 @@ in {
     # === Media & Productivity ===
     imagemagick
     openjpeg
+    pandoc
+    poppler-utils
+    typst
     pympress
     cowsay
     duf

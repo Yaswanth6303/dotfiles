@@ -7,7 +7,14 @@
 #   defaults read <domain> <key>
 # then add the key under the matching `system.defaults.<domain>` block,
 # or under `CustomUserPreferences` if it isn't in the typed schema.
-{config, ...}: {
+{config, ...}: let
+  user = config.system.primaryUser;
+in {
+  # screencapture.location below must exist, or screenshots silently fail.
+  system.activationScripts.postActivation.text = ''
+    /usr/bin/install -d -o ${user} -g staff -m 0755 /Users/${user}/Pictures/Screenshots
+  '';
+
   system.defaults = {
     # ── Global UI / input ────────────────────────────────────────────────
     NSGlobalDomain = {
@@ -50,7 +57,7 @@
 
     # ── Screenshots ──────────────────────────────────────────────────────
     screencapture = {
-      location = "/Users/${config.system.primaryUser}/Pictures/Screenshots";
+      location = "/Users/${user}/Pictures/Screenshots";
       type = "png";
       show-thumbnail = true;
     };
