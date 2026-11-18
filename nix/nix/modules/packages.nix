@@ -30,7 +30,6 @@ in {
     sapling
     television
     gawk
-    tmux
     fish
     nushell
     eza
