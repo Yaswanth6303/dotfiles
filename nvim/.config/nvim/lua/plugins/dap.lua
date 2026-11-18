@@ -2,6 +2,14 @@ return {
   -- Core DAP
   {
     "mfussenegger/nvim-dap",
+    keys = {
+      { "<leader>db", "<cmd>DapToggleBreakpoint<cr>", desc = "Toggle breakpoint" },
+      { "<leader>dc", "<cmd>DapContinue<cr>", desc = "Start/Continue" },
+      { "<leader>do", "<cmd>DapStepOver<cr>", desc = "Step over" },
+      { "<leader>di", "<cmd>DapStepInto<cr>", desc = "Step into" },
+      { "<leader>dO", "<cmd>DapStepOut<cr>", desc = "Step out" },
+      { "<leader>dt", "<cmd>DapTerminate<cr>", desc = "Terminate" },
+    },
     cmd = { "DapToggleBreakpoint", "DapContinue", "DapNew", "DapStepOver", "DapStepInto", "DapStepOut" },
     config = function()
       require "configs.dap"
@@ -25,6 +33,15 @@ return {
   -- DAP UI
   {
     "rcarriga/nvim-dap-ui",
+    keys = {
+      {
+        "<leader>du",
+        function()
+          require("dapui").toggle()
+        end,
+        desc = "Toggle UI",
+      },
+    },
     event = "VeryLazy",
     dependencies = {
       "mfussenegger/nvim-dap",

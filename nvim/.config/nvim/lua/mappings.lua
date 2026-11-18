@@ -5,9 +5,47 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
+-- Snacks picker: same keys as NvChad's Telescope maps (overridden here), plus a few extras
+local function pick(source, opts)
+  return function()
+    Snacks.picker[source](opts)
+  end
+end
+map("n", "<leader>ff", pick "files", { desc = "\u{f15b} Find files" })
+map("n", "<leader>fa", pick("files", { ignored = true }), { desc = "\u{f15b} Find all files (incl. git-ignored)" })
+map("n", "<leader>fw", pick "grep", { desc = "\u{f002} Live grep" })
+map({ "n", "x" }, "<leader>fW", pick "grep_word", { desc = "\u{f002} Grep word / selection" })
+map("n", "<leader>fb", pick "buffers", { desc = "\u{f0c5} Buffers" })
+map("n", "<leader>fo", pick "recent", { desc = "\u{f1da} Recent files" })
+map("n", "<leader>fz", pick "lines", { desc = "\u{f0cb} Search in current buffer" })
+map("n", "<leader>fh", pick "help", { desc = "\u{f059} Help pages" })
+map("n", "<leader>fk", pick "keymaps", { desc = "\u{f11c} Keymaps" })
+map("n", "<leader>fd", pick "diagnostics", { desc = "\u{f188} Diagnostics" })
+map("n", "<leader>fs", pick "lsp_symbols", { desc = "\u{f1b2} LSP symbols" })
+map("n", "<leader>fu", pick "undo", { desc = "\u{f0e2} Undo history" })
+map("n", "<leader>fi", pick "icons", { desc = "\u{f118} Icons" })
+map("n", "<leader>fc", pick("files", { cwd = vim.fn.stdpath "config" }), { desc = "\u{f013} Neovim config files" })
+map("n", "<leader>fr", pick "resume", { desc = "\u{f01e} Resume last picker" })
+map("n", "<leader>f<space>", pick "pickers", { desc = "\u{f0ca} All pickers" })
+map("n", "<leader>ma", pick "marks", { desc = "\u{f02e} Marks" })
+-- Remove NvChad's Alt+h / Alt+v / Alt+i terminal toggles (<leader>h / <leader>v still open terminals)
+for _, key in ipairs { "<A-h>", "<A-v>", "<A-i>" } do
+  pcall(vim.keymap.del, { "n", "t" }, key)
+end
+
+pcall(vim.keymap.del, "n", "<leader>cm") -- NvChad's Telescope commits; moved to <leader>gc
+map("n", "<leader>gc", pick "git_log", { desc = "\u{e702} Git commits" })
+map("n", "<leader>gt", pick "git_status", { desc = "\u{e702} Git status" })
+
+-- Snacks gh: GitHub issues / PRs for the current repo (needs `gh auth login`)
+map("n", "<leader>gi", pick "gh_issue", { desc = "\u{f09b} GitHub issues (open)" })
+map("n", "<leader>gI", pick("gh_issue", { state = "all" }), { desc = "\u{f09b} GitHub issues (all)" })
+map("n", "<leader>gp", pick "gh_pr", { desc = "\u{f09b} GitHub PRs (open)" })
+map("n", "<leader>gP", pick("gh_pr", { state = "all" }), { desc = "\u{f09b} GitHub PRs (all)" })
+
 -- LSP rename
 map("n", "<leader>rn", function()
-  require("nvchad.lsp.renamer")()
+  require "nvchad.lsp.renamer"()
 end, { desc = "LSP rename symbol" })
 
 -- Manual format with conform
@@ -15,17 +53,7 @@ map("n", "<leader>fm", function()
   require("conform").format { lsp_format = "fallback" }
 end, { desc = "Format file with conform" })
 
--- Debugging
-map("n", "<leader>db", "<cmd>DapToggleBreakpoint<cr>", { desc = "Toggle breakpoint" })
-map("n", "<leader>dc", "<cmd>DapContinue<cr>", { desc = "Start/Continue" })
-map("n", "<leader>do", "<cmd>DapStepOver<cr>", { desc = "Step over" })
-map("n", "<leader>di", "<cmd>DapStepInto<cr>", { desc = "Step into" })
-map("n", "<leader>dO", "<cmd>DapStepOut<cr>", { desc = "Step out" })
-map("n", "<leader>dt", "<cmd>DapTerminate<cr>", { desc = "Terminate" })
-map("n", "<leader>du", function()
-  require("dapui").toggle()
-end, { desc = "Toggle UI" })
-
+-- Windows / tabs
 map("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 map("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
 map("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
@@ -34,56 +62,15 @@ map("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- cl
 map("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
 map("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
--- Markdown
-map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown: Browser preview" })
-map("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown: Toggle in-buffer render" })
-map("n", "<leader>mg", "<cmd>Glow<cr>", { desc = "Markdown: Glow floating preview" })
-
--- Flutter
-map("n", "<leader>Fr", "<cmd>FlutterRun<cr>", { desc = "Flutter: Run" })
-map("n", "<leader>Fq", "<cmd>FlutterQuit<cr>", { desc = "Flutter: Quit" })
-map("n", "<leader>Fh", "<cmd>FlutterReload<cr>", { desc = "Flutter: Hot reload" })
-map("n", "<leader>FR", "<cmd>FlutterRestart<cr>", { desc = "Flutter: Hot restart" })
-map("n", "<leader>Fd", "<cmd>FlutterDevices<cr>", { desc = "Flutter: Devices" })
-map("n", "<leader>Fe", "<cmd>FlutterEmulators<cr>", { desc = "Flutter: Emulators" })
-map("n", "<leader>Fo", "<cmd>FlutterOutlineToggle<cr>", { desc = "Flutter: Widget outline" })
-map("n", "<leader>Fl", "<cmd>FlutterLogClear<cr>", { desc = "Flutter: Clear log" })
-
--- SQL (dadbod)
-map("n", "<leader>St", "<cmd>DBUIToggle<cr>", { desc = "SQL: Toggle DBUI sidebar" })
-map("n", "<leader>Sq", "<cmd>DBUIFindBuffer<cr>", { desc = "SQL: Find query buffer" })
-map("n", "<leader>Sa", "<cmd>DBUIAddConnection<cr>", { desc = "SQL: Add connection" })
-
--- Typst
-map("n", "<leader>Tp", "<cmd>TypstPreviewToggle<cr>", { desc = "Typst: Toggle live preview" })
-map("n", "<leader>Tw", function()
-  -- Compile and show word count
-  local file = vim.fn.expand "%:p"
-  vim.fn.jobstart({ "typst", "compile", file }, {
-    on_exit = function(_, code)
-      if code == 0 then
-        vim.schedule(function()
-          vim.notify("Typst: Compiled → " .. file:gsub("%.typ$", ".pdf"), vim.log.levels.INFO)
-        end)
-      else
-        vim.schedule(function()
-          vim.notify("Typst: Compilation failed", vim.log.levels.ERROR)
-        end)
-      end
-    end,
-  })
-end, { desc = "Typst: Compile to PDF" })
-map("n", "<leader>Ts", "<cmd>TypstPreviewSyncCursor<cr>", { desc = "Typst: Sync cursor to preview" })
-map("n", "<leader>Tf", function()
-  -- Quick follow mode toggle
-  require("typst-preview").set_follow_cursor(not require("typst-preview").get_follow_cursor())
-end, { desc = "Typst: Toggle follow cursor" })
-
 -- Register which-key group headers so pressing <leader> shows named sections
 local ok, wk = pcall(require, "which-key")
 if ok and wk.add then
   wk.add {
     { "<leader>F", group = "Flutter" },
+    { "<leader>f", group = "Find (Snacks picker)" },
+    { "<leader>g", group = "Git / GitHub" },
+    { "<leader>p", group = "Profiler" },
+    { "<leader>u", group = "Toggles" },
     { "<leader>S", group = "SQL / DBUI" },
     { "<leader>T", group = "Typst" },
     { "<leader>d", group = "Debug" },

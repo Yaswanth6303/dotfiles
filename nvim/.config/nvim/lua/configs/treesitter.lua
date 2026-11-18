@@ -39,6 +39,8 @@ return {
     "dart",
     -- Typst
     "typst",
+    "regex", -- noice: highlights / search in the command-line box
+    "bash", -- noice: highlights :! shell commands
   },
 
   textobjects = {

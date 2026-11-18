@@ -1,6 +1,16 @@
 return {
   {
     "akinsho/flutter-tools.nvim",
+    keys = {
+      { "<leader>Fr", "<cmd>FlutterRun<cr>", desc = "Flutter: Run" },
+      { "<leader>Fq", "<cmd>FlutterQuit<cr>", desc = "Flutter: Quit" },
+      { "<leader>Fh", "<cmd>FlutterReload<cr>", desc = "Flutter: Hot reload" },
+      { "<leader>FR", "<cmd>FlutterRestart<cr>", desc = "Flutter: Hot restart" },
+      { "<leader>Fd", "<cmd>FlutterDevices<cr>", desc = "Flutter: Devices" },
+      { "<leader>Fe", "<cmd>FlutterEmulators<cr>", desc = "Flutter: Emulators" },
+      { "<leader>Fo", "<cmd>FlutterOutlineToggle<cr>", desc = "Flutter: Widget outline" },
+      { "<leader>Fl", "<cmd>FlutterLogClear<cr>", desc = "Flutter: Clear log" },
+    },
     ft = "dart",
     dependencies = {
       "nvim-lua/plenary.nvim",

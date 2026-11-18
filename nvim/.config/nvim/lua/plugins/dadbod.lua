@@ -6,6 +6,11 @@ return {
 
   {
     "kristijanhusak/vim-dadbod-ui",
+    keys = {
+      { "<leader>St", "<cmd>DBUIToggle<cr>", desc = "SQL: Toggle DBUI sidebar" },
+      { "<leader>Sq", "<cmd>DBUIFindBuffer<cr>", desc = "SQL: Find query buffer" },
+      { "<leader>Sa", "<cmd>DBUIAddConnection<cr>", desc = "SQL: Add connection" },
+    },
     cmd = { "DBUI", "DBUIToggle", "DBUIAddConnection", "DBUIFindBuffer" },
     dependencies = { "tpope/vim-dadbod" },
     init = function()

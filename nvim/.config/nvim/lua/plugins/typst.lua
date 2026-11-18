@@ -2,6 +2,36 @@ return {
   -- Live browser preview for Typst documents
   {
     "chomosuke/typst-preview.nvim",
+    keys = {
+      { "<leader>Tp", "<cmd>TypstPreviewToggle<cr>", desc = "Typst: Toggle live preview" },
+      { "<leader>Ts", "<cmd>TypstPreviewSyncCursor<cr>", desc = "Typst: Sync cursor to preview" },
+      {
+        "<leader>Tf",
+        function()
+          local tp = require "typst-preview"
+          tp.set_follow_cursor(not tp.get_follow_cursor())
+        end,
+        desc = "Typst: Toggle follow cursor",
+      },
+      {
+        "<leader>Tw",
+        function()
+          local file = vim.fn.expand "%:p"
+          vim.fn.jobstart({ "typst", "compile", file }, {
+            on_exit = function(_, code)
+              vim.schedule(function()
+                if code == 0 then
+                  vim.notify("Typst: Compiled → " .. file:gsub("%.typ$", ".pdf"), vim.log.levels.INFO)
+                else
+                  vim.notify("Typst: Compilation failed", vim.log.levels.ERROR)
+                end
+              end)
+            end,
+          })
+        end,
+        desc = "Typst: Compile to PDF",
+      },
+    },
     ft = "typst",
     build = function()
       require("typst-preview").update()

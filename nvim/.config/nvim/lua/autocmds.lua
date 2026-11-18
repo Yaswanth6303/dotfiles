@@ -6,6 +6,11 @@ vim.filetype.add {
     ["BUILD.bazel"] = "bzl",
     ["WORKSPACE"] = "bzl",
     ["WORKSPACE.bazel"] = "bzl",
+    -- docker_compose_language_service only attaches to this filetype
+    ["docker-compose.yml"] = "yaml.docker-compose",
+    ["docker-compose.yaml"] = "yaml.docker-compose",
+    ["compose.yml"] = "yaml.docker-compose",
+    ["compose.yaml"] = "yaml.docker-compose",
   },
   pattern = {
     [".*%.bzl"] = "bzl",
@@ -52,5 +57,33 @@ vim.api.nvim_create_autocmd("BufEnter", {
       end
       pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
     end, 100)
+  end,
+})
+
+-- `exit` in a split terminal (<leader>h / <leader>v): close its window instead of leaving an empty split.
+-- Neovim swaps the exited terminal's buffer out before TermClose runs, so remember the window up front.
+-- Only on a clean exit (status 0) so error output stays visible.
+local term_group = vim.api.nvim_create_augroup("close_exited_terminal", { clear = true })
+vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
+  group = term_group,
+  callback = function(args)
+    if vim.bo[args.buf].buftype == "terminal" then
+      vim.w.term_buf = args.buf
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("TermClose", {
+  group = term_group,
+  callback = function(args)
+    if vim.v.event.status ~= 0 then
+      return
+    end
+    vim.schedule(function()
+      for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        if vim.w[win].term_buf == args.buf and #vim.api.nvim_tabpage_list_wins(0) > 1 then
+          pcall(vim.api.nvim_win_close, win, true)
+        end
+      end
+    end)
   end,
 })

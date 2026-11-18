@@ -36,8 +36,10 @@ return {
       "docker_compose_language_service",
       "tinymist",
       "kotlin_language_server",
+      "texlab",
     },
-    automatic_installation = true,
+    -- start only the servers listed above (vim.lsp.enable in lspconfig.lua), not every Mason package
+    automatic_enable = false,
   },
 
   -- Mason tools to auto-install (formatters, linters)
