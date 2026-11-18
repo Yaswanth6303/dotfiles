@@ -62,6 +62,7 @@ in {
 
     # === Development Tools ===
     neovim
+    tree-sitter # nvim-treesitter (main branch) needs the CLI to build parsers
     drawio
     helix
     lazygit

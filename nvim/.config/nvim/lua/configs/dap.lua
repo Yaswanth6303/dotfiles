@@ -30,7 +30,14 @@ dap.configurations.python = {
   },
 }
 
--- JavaScript / TypeScript (js-debug-adapter auto-configured by mason-nvim-dap)
+-- JavaScript / TypeScript. mason-nvim-dap installs js-debug-adapter but doesn't register it,
+-- so define the `pwa-node` adapter the configurations below use.
+dap.adapters["pwa-node"] = {
+  type = "server",
+  host = "localhost",
+  port = "${port}",
+  executable = { command = "js-debug-adapter", args = { "${port}" } },
+}
 local js_config = {
   {
     type = "pwa-node",

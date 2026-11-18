@@ -1,5 +1,6 @@
 local options = {
   formatters = {
+    djlint = { prepend_args = { "--profile=jinja" } }, -- FastAPI uses Jinja, not Django
     ["google-java-format"] = {
       prepend_args = { "--aosp" },
     },
@@ -15,6 +16,7 @@ local options = {
     python = { "ruff_organize_imports", "ruff_format" },
     java = { "google-java-format" },
     nix = { "alejandra" },
+    toml = { "taplo" },
     bzl = { "buildifier" },
 
     -- MERN stack — prettierd (daemon, fast) with prettier as fallback
@@ -24,6 +26,9 @@ local options = {
     javascriptreact = { "prettierd", "prettier", stop_after_first = true },
     typescriptreact = { "prettierd", "prettier", stop_after_first = true },
     html = { "prettierd", "prettier", stop_after_first = true },
+    htmlangular = { "prettierd", "prettier", stop_after_first = true },
+    htmldjango = { "djlint" },
+    jinja = { "djlint" },
     css = { "prettierd", "prettier", stop_after_first = true },
     scss = { "prettierd", "prettier", stop_after_first = true },
     less = { "prettierd", "prettier", stop_after_first = true },

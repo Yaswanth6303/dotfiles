@@ -12,6 +12,10 @@ vim.filetype.add {
     ["compose.yml"] = "yaml.docker-compose",
     ["compose.yaml"] = "yaml.docker-compose",
   },
+  extension = {
+    j2 = "jinja",
+    jinja2 = "jinja",
+  },
   pattern = {
     [".*%.bzl"] = "bzl",
     [".*%.bazel"] = "bzl",

@@ -1,9 +1,13 @@
+-- Treesitter data used by plugins/treesitter.lua (nvim-treesitter `main` branch).
+
 return {
-  ensure_installed = {
+  -- parsers to install; names not known to nvim-treesitter are skipped
+  languages = {
     -- Neovim / config
     "vim",
     "vimdoc",
     "lua",
+    "query",
     -- Systems / compiled
     "c",
     "cpp",
@@ -12,70 +16,71 @@ return {
     "java",
     -- Scripting
     "python",
+    "bash",
     "javascript",
     "typescript",
-    "tsx",
-    "jsx",
+    "tsx", -- also covers .jsx
     -- Web / data
     "html",
+    "angular", -- Angular templates (htmlangular)
+    "htmldjango", -- Jinja/Django templates detected as htmldjango
+    "jinja",
+    "jinja_inline",
     "css",
+    "scss",
     "json",
     "yaml",
     "toml",
     "markdown",
+    "markdown_inline",
     "graphql",
     "svelte",
     "prisma",
     "sql",
+    "regex", -- noice: highlights / search in the command-line box
     -- Build / config
     "starlark",
     "groovy",
     "kotlin",
     "xml",
     "properties",
-    -- Nix
     "nix",
-    -- Dart / Flutter
     "dart",
-    -- Typst
+    -- Docs
     "typst",
-    "regex", -- noice: highlights / search in the command-line box
-    "bash", -- noice: highlights :! shell commands
+    "latex", -- snacks.image renders LaTeX math in markdown
   },
 
+  -- nvim-treesitter-textobjects keymaps: key = { query, description }
   textobjects = {
+    -- visual / operator-pending: vaf, dif, cia, …
     select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = { query = "@function.outer", desc = "outer function" },
-        ["if"] = { query = "@function.inner", desc = "inner function" },
-        ["ac"] = { query = "@class.outer", desc = "outer class" },
-        ["ic"] = { query = "@class.inner", desc = "inner class" },
-        ["aa"] = { query = "@parameter.outer", desc = "outer parameter" },
-        ["ia"] = { query = "@parameter.inner", desc = "inner parameter" },
-        ["ab"] = { query = "@block.outer", desc = "outer block" },
-        ["ib"] = { query = "@block.inner", desc = "inner block" },
-      },
+      af = { "@function.outer", "outer function" },
+      ["if"] = { "@function.inner", "inner function" },
+      ac = { "@class.outer", "outer class" },
+      ic = { "@class.inner", "inner class" },
+      aa = { "@parameter.outer", "outer parameter" },
+      ia = { "@parameter.inner", "inner parameter" },
+      ab = { "@block.outer", "outer block" },
+      ib = { "@block.inner", "inner block" },
     },
+    -- normal / visual / operator-pending jumps
     move = {
-      enable = true,
-      set_jumps = true,
       goto_next_start = {
-        ["]f"] = { query = "@function.outer", desc = "Next function start" },
-        ["]c"] = { query = "@class.outer", desc = "Next class start" },
+        ["]f"] = { "@function.outer", "Next function start" },
+        ["]c"] = { "@class.outer", "Next class start" },
       },
       goto_next_end = {
-        ["]F"] = { query = "@function.outer", desc = "Next function end" },
-        ["]C"] = { query = "@class.outer", desc = "Next class end" },
+        ["]F"] = { "@function.outer", "Next function end" },
+        ["]C"] = { "@class.outer", "Next class end" },
       },
       goto_previous_start = {
-        ["[f"] = { query = "@function.outer", desc = "Prev function start" },
-        ["[c"] = { query = "@class.outer", desc = "Prev class start" },
+        ["[f"] = { "@function.outer", "Prev function start" },
+        ["[c"] = { "@class.outer", "Prev class start" },
       },
       goto_previous_end = {
-        ["[F"] = { query = "@function.outer", desc = "Prev function end" },
-        ["[C"] = { query = "@class.outer", desc = "Prev class end" },
+        ["[F"] = { "@function.outer", "Prev function end" },
+        ["[C"] = { "@class.outer", "Prev class end" },
       },
     },
   },

@@ -2,14 +2,14 @@
 local M = {}
 
 function M.load()
-  local env_file = vim.fn.stdpath("config") .. "/.env"
+  local env_file = vim.fn.stdpath "config" .. "/.env"
   local file = io.open(env_file, "r")
 
   if file then
     for line in file:lines() do
       -- Skip empty lines and comments
-      if line ~= "" and not line:match("^#") then
-        local key, value = line:match("^([%w_]+)=(.+)$")
+      if line ~= "" and not line:match "^#" then
+        local key, value = line:match "^([%w_]+)=(.+)$"
         if key and value then
           -- Remove quotes if present
           value = value:gsub('^"(.*)"$', "%1"):gsub("^'(.*)'$", "%1")

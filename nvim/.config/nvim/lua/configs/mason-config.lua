@@ -37,6 +37,8 @@ return {
       "tinymist",
       "kotlin_language_server",
       "texlab",
+      "angularls", -- Angular templates (needs @angular/language-service in the project)
+      "jinja_lsp", -- Jinja templates (FastAPI)
     },
     -- start only the servers listed above (vim.lsp.enable in lspconfig.lua), not every Mason package
     automatic_enable = false,
@@ -58,5 +60,6 @@ return {
     "sql-formatter",
     "typstyle",
     "ktfmt",
+    "djlint", -- Jinja / htmldjango formatter
   },
 }

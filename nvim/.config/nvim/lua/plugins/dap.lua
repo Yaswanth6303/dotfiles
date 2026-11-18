@@ -25,7 +25,8 @@ return {
       "mfussenegger/nvim-dap",
     },
     opts = {
-      ensure_installed = { "codelldb", "delve", "debugpy", "js-debug-adapter" },
+      -- nvim-dap adapter names, not Mason package names: python = debugpy, js = js-debug-adapter
+      ensure_installed = { "codelldb", "delve", "python", "js" },
       handlers = {},
     },
   },

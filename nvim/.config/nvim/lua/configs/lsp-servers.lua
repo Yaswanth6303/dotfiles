@@ -23,8 +23,9 @@ local function eslint_fix_on_save(client, bufnr)
     group = vim.api.nvim_create_augroup("eslint_fix_on_save_" .. bufnr, { clear = true }), -- no stacking on re-attach
     buffer = bufnr,
     callback = function()
-      local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
-      params.context = { only = { "source.fixAll.eslint" }, diagnostics = {} }
+      local params = vim.tbl_extend("force", vim.lsp.util.make_range_params(0, client.offset_encoding), {
+        context = { only = { "source.fixAll.eslint" }, diagnostics = {} },
+      })
       local results = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 3000)
       for _, res in pairs(results or {}) do
         for _, action in ipairs(res.result or {}) do
@@ -37,6 +38,16 @@ local function eslint_fix_on_save(client, bufnr)
   })
 end
 
+-- Servers allowed to format: their languages have no conform formatter, so conform's
+-- `lsp_format = "fallback"` (configs/conform.lua) uses them. Everyone else formats via conform only.
+local lsp_formatters = {
+  lemminx = true, -- XML
+  prismals = true, -- Prisma
+  svelte = true, -- Svelte (bundles prettier-plugin-svelte)
+  dockerls = true, -- Dockerfile
+  texlab = true, -- LaTeX (runs latexindent)
+}
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp_shared_attach", { clear = true }),
   callback = function(args)
@@ -44,9 +55,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if not client then
       return
     end
-    -- conform.nvim owns formatting; stop servers from formatting too
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
+    if not lsp_formatters[client.name] then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
 
     if client.name == "eslint" then
       eslint_fix_on_save(client, args.buf)
@@ -129,7 +141,46 @@ vim.lsp.config("tailwindcss", { filetypes = known_filetypes "tailwindcss" })
 
 -- Emmet only in markup/style files: in JS/TS it turns every identifier into a tag
 -- abbreviation (`NavBar` → `<NavBar></NavBar>`) and buries ts_ls completions.
-vim.lsp.config("emmet_ls", { filetypes = { "html", "css", "scss", "sass", "less", "svelte" } })
+vim.lsp.config("emmet_ls", {
+  filetypes = { "html", "htmlangular", "htmldjango", "jinja", "css", "scss", "sass", "less", "svelte" },
+})
+
+-- HTML completion/diagnostics inside Angular and Jinja templates too
+vim.lsp.config("html", { filetypes = { "html", "htmlangular", "htmldjango", "jinja" } })
+
+-- Jinja: FastAPI templates are usually `templates/*.html`, which Neovim detects as htmldjango.
+-- jinja-lsp (github.com/uros-5/jinja-lsp). Behaviour taken from its source (config.rs, channels/lsp.rs):
+--   * it resolves relative paths and reads the project's own `[tool.jinja-lsp]` (pyproject.toml /
+--     jinja-lsp.toml) from its working directory, so it is started in the project root;
+--   * settings sent at startup override that project config, so they're only sent when it has none;
+--   * defaults already fit Python apps (backend = ".", lang = "python").
+vim.lsp.config("jinja_lsp", {
+  filetypes = { "jinja", "htmldjango" },
+  root_markers = { "pyproject.toml", "requirements.txt", "setup.py", ".git" },
+  cmd = function(dispatchers, config)
+    return vim.lsp.rpc.start({ "jinja-lsp" }, dispatchers, { cwd = config.root_dir })
+  end,
+  before_init = function(params, config)
+    local tpl = require "configs.jinja-templates"
+    if config.root_dir and not tpl.has_project_config(config.root_dir) then
+      params.initializationOptions = {
+        templates = tpl.find(config.root_dir), -- folder the app declares (Jinja2Templates(directory=…))
+        hide_undefined = true, -- it can't see variables passed via TemplateResponse(..., {...})
+      }
+    end
+  end,
+  handlers = {
+    -- no option for this one: overriding {% block %} in a child template is normal inheritance
+    ["textDocument/publishDiagnostics"] = function(err, result, ctx)
+      if result and result.diagnostics then
+        result.diagnostics = vim.tbl_filter(function(d)
+          return d.message ~= "Defined in multiple places"
+        end, result.diagnostics)
+      end
+      vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
+    end,
+  },
+})
 
 --------------------------------------------------------------------------------
 -- C / C++
