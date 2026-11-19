@@ -54,6 +54,14 @@ map("n", "<leader>fm", function()
 end, { desc = "Format file with conform" })
 
 -- Windows / tabs
+-- Ctrl+h/j/k/l: move between Neovim splits, terminals and tmux panes (vim-tmux-navigator; tmux side
+-- in tmux/.config/tmux/tmux.conf). Replaces NvChad's window-only versions; in terminals it leaves
+-- insert mode first, so no <C-x> needed.
+for key, dir in pairs { h = "Left", j = "Down", k = "Up", l = "Right" } do
+  local cmd = "<cmd>TmuxNavigate" .. dir .. "<cr>"
+  map("n", "<C-" .. key .. ">", cmd, { desc = "Move to " .. dir:lower() .. " window / tmux pane" })
+  map("t", "<C-" .. key .. ">", "<C-\\><C-n>" .. cmd, { desc = "Move to " .. dir:lower() .. " window / tmux pane" })
+end
 map("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 map("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
 map("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
