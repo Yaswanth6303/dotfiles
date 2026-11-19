@@ -33,6 +33,7 @@ in {
     fish
     nushell
     eza
+    tmux
     yazi
     bat
     fd
