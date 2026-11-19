@@ -91,3 +91,14 @@ vim.api.nvim_create_autocmd("TermClose", {
     end)
   end,
 })
+
+-- Moving into a terminal window (Ctrl+h/j/k/l, mouse, …) starts typing right away, like a tmux pane.
+-- Skipped once the shell has exited, since there's nothing left to type into.
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+  group = vim.api.nvim_create_augroup("terminal_auto_insert", { clear = true }),
+  callback = function(args)
+    if vim.bo[args.buf].buftype == "terminal" and vim.fn.jobwait({ vim.bo[args.buf].channel }, 0)[1] == -1 then
+      vim.cmd.startinsert()
+    end
+  end,
+})
